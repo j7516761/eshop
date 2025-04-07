@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- Product 類的映射 -->
+	<class name="com.example.pojo.entity.Product" table="Products">
+		<!-- 主鍵映射 -->
+		<id name="id" column="id">
+			<generator class="identity" />
+			<!-- 使用自增生成策略 -->
+		</id>
+		<!-- 商品名稱映射 -->
+		<property name="name" column="name" not-null="true" />
+		<!-- 商品描述映射 -->
+		<property name="description" column="description" />
+		<!-- 商品價格映射 -->
+		<property name="price" column="price" not-null="true" />
+		<!-- 商品庫存映射 -->
+		<property name="stock" column="stock" not-null="true" />
+		<!-- 商品類別映射 (Many-to-One 關聯) -->
+		<many-to-one name="category" column="category_id"
+			class="com.example.pojo.entity.Product" not-null="false" />
+			
+		<!-- 商品圖片 URL 映射 -->
+		<property name="imageUrl" column="image_url" />
+	</class>
+</hibernate-mapping>
