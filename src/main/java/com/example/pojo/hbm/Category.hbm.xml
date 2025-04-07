@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- Category 類的映射 -->
+	<class name="com.example.pojo.entity.Category" table="Categories">
+		<!-- 主鍵映射 -->
+		<id name="id" column="id">
+			<generator class="identity" />
+			<!-- 使用自增生成策略 -->
+		</id>
+		<!-- 類別名稱映射 -->
+		<property name="name" column="name" not-null="true" />
+		<!-- 父類別映射 (Many-to-One 關聯) -->
+		<many-to-one name="parentCategory" column="parent_id"
+			class="com.example.pojo.entity.Category" not-null="false" />
+		<!-- 商品關聯 (One-to-Many 關聯) -->
+		<bag name="products" cascade="all-delete-orphan" inverse="true">
+			<key column="category_id" />
+			<one-to-many class="com.example.pojo.entity.Product" />
+		</bag>
+	</class>
+</hibernate-mapping>

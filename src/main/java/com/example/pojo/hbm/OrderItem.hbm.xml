@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.example.pojo.entity.OrderItem" table="order_items">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="native"/>
+        </id>
+
+        <many-to-one name="order" class="com.example.pojo.entity.Order" column="order_id" not-null="true"/>
+
+        <many-to-one name="product" class="com.example.pojo.entity.Product" column="product_id" not-null="true"/>
+
+        <property name="quantity" type="java.lang.Integer">
+            <column name="quantity"/>
+        </property>
+    </class>
+</hibernate-mapping>
