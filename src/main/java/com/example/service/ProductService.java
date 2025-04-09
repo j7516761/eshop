@@ -8,15 +8,15 @@ import com.example.pojo.entity.Product;
 //ProductService.java
 public interface ProductService {
 
-	Product getProductById(Long productId);
+	Product getProductById(int productId);
 
 	List<Product> getAllProducts();
 
 	void createProduct(Product product);
 
-	void updateProduct(Long productId, Product product);
+	void updateProduct(int productId, Product product);
 
-	void deleteProduct(Long productId);
+	void deleteProduct(int productId);
 
 	List<Product> getProductsByCategory(Category category);
 }

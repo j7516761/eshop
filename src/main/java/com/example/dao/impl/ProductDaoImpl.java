@@ -27,7 +27,7 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public Product findById(Long id) {
+	public Product findById(int id) {
 		return getCurrentSession().get(Product.class, id);
 	}
 
@@ -55,7 +55,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public void update(Product product) {
-		getCurrentSession().merge(product);
+		getCurrentSession().update(product);
 	}
 
 	@Override

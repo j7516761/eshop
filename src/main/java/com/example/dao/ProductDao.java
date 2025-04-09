@@ -6,7 +6,7 @@ import com.example.pojo.entity.Category;
 import com.example.pojo.entity.Product;
 
 public interface ProductDao {
-	Product findById(Long id);
+	Product findById(int id);
 
 	List<Product> findAll();
 
