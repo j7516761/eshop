@@ -1,9 +1,15 @@
 package com.example.action;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.constant.ConstantName;
+import com.example.pojo.entity.Category;
+import com.example.pojo.entity.Product;
 import com.example.pojo.entity.User;
+import com.example.service.CategoryService;
+import com.example.service.ProductService;
 import com.example.service.UserService;
 
 /**
@@ -19,6 +25,11 @@ public class LoginAction extends BaseAction {
     // 使用 Spring 注入 UserService 進行業務邏輯處理
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private ProductService productService;
+    
+    @Autowired CategoryService categoryService;
 
     /**
      * 透過模型驅動封裝 User 物件
@@ -38,6 +49,33 @@ public class LoginAction extends BaseAction {
      * @return 若登入成功返回 SUCCESS，若登入失敗返回 INPUT
      */
     public String doLogin() {
+    	
+//    	for(int i = 1; i <= 10; i++)
+//    	{
+//    		Product p = new Product();
+//    		p.setId(i);
+//    		p.setName("Product" + i);
+//    		p.setPrice(i * 100);
+//    		p.setStock((int)i * 100);
+//    		productService.createProduct(p);
+//    	}
+//    	
+//    	for(int i = 1; i <= 10; i++)
+//    	{
+//    		Category c = new Category();
+//    		c.setId(i);
+//    		c.setName("Category" + i);
+//    		categoryService.createCategory(c);
+//    	}	
+    	
+    	List<Product> products = productService.getAllProducts();
+    	Product p = products.get(0);
+    	Category c = categoryService.getCategoryById((int)10);
+    	//p.setName("ProductModify" + p.getId());
+    	p.setCategory(c); 	
+    	int id = p.getId();
+    	productService.updateProduct(id, p);
+
         // 檢查是否提供了登入 ID 和密碼
         if (user == null || user.getLoginId() == null || user.getPassword() == null) {
             getSession().setAttribute("msg", "請提供有效的帳號與密碼");
