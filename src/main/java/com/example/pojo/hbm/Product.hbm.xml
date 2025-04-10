@@ -19,7 +19,7 @@
 		<property name="stock" column="stock" not-null="true" />
 		<!-- 商品類別映射 (Many-to-One 關聯) -->
 		<many-to-one name="category" column="category_id"
-			class="com.example.pojo.entity.Product" not-null="false" />
+			class="com.example.pojo.entity.Category" not-null="false" />
 			
 		<!-- 商品圖片 URL 映射 -->
 		<property name="imageUrl" column="image_url" />
