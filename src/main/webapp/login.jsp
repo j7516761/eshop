@@ -21,7 +21,7 @@
     <script src="public/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-    <form id="loginForm" action="login/login" method="post">
+    <form id="loginForm" action="product/list" method="post">
         <div style="margin: 50px;">
             <table>
                 <!-- 顯示錯誤訊息 -->
@@ -49,6 +49,7 @@
                         <br />
                         <button type="button" onclick="validateAndSubmit()">登入</button>
                         &nbsp;<a href="register/register" style="text-decoration: none;">註冊</a>
+                        &nbsp;<a href="product/list" style="text-decoration: none;">產品清單</a>
                     </td>
                 </tr>
             </table>
