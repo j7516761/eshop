@@ -55,7 +55,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public void update(Product product) {
-		getCurrentSession().update(product);
+		getCurrentSession().saveOrUpdate(product);
 	}
 
 	@Override

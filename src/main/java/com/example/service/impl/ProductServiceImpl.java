@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
  }
 
  @Override
- public void updateProduct(int productId, Product productDetails) {
+ public void updateProduct(Product productDetails) {
 //     Product existingProduct = getProductById(productId);
 //     
 //     existingProduct.setName(productDetails.getName());

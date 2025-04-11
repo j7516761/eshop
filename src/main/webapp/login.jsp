@@ -50,6 +50,7 @@
                         <button type="button" onclick="validateAndSubmit()">登入</button>
                         &nbsp;<a href="register/register" style="text-decoration: none;">註冊</a>
                         &nbsp;<a href="product/list" style="text-decoration: none;">產品清單</a>
+                        &nbsp;<a href="product/initDB" style="text-decoration: none;">產品資料庫初始化</a>
                     </td>
                 </tr>
             </table>
