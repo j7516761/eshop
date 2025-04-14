@@ -19,12 +19,24 @@ public class ProductServiceImpl implements ProductService {
  public Product getProductById(int productId) {
 	 return productDao.findById(productId);
  }
+ 
+ @Override
+ public long getProductAmount()
+ {
+	 return productDao.getProductAmount();
+ }
 
  @Override
  public List<Product> getAllProducts() {
      return productDao.findAll();
  }
-
+ 
+ @Override
+ public List<Product> getProducts(int start, int maxResults)
+ {
+	 return productDao.getProducts(start, maxResults);
+ }
+ 
  @Override
  public void createProduct(Product product) {
      productDao.save(product);

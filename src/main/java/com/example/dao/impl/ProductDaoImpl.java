@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,10 +31,32 @@ public class ProductDaoImpl implements ProductDao {
 	public Product findById(int id) {
 		return getCurrentSession().get(Product.class, id);
 	}
+	
+	public long getProductAmount()
+	{
+		return getCurrentSession().createQuery("SELECT COUNT(p) FROM Product p", Long.class).uniqueResult();		
+	}
 
 	@Override
 	public List<Product> findAll() {
 		return getCurrentSession().createQuery("FROM Product", Product.class).getResultList();
+	}
+
+	@Override
+	public List<Product> getProducts(int start, int maxResults) {
+		Session session = sessionFactory.openSession();
+		List<Product> products = null;
+		try {
+			String hql = "FROM Product";
+			Query<Product> query = getCurrentSession().createQuery(hql, Product.class);
+			// 設置查詢的起始位置和返回的最大數量
+			query.setFirstResult(start);
+			query.setMaxResults(maxResults);
+			products = query.list();
+		} finally {
+			session.close();
+		}
+		return products;
 	}
 
 	@Override

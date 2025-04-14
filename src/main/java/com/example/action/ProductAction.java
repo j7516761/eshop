@@ -24,14 +24,16 @@ public class ProductAction extends BaseAction{
     public String listProducts() {
         try {
             // 獲取產品列表
-            List<Product> products = productService.getAllProducts();
+            //List<Product> products = productService.getAllProducts();
+            
+            long productAmount = productService.getProductAmount();
             int page = getCurrentPageIndex();
-            int start = Math.max(0, (page - 1) * 10);
-            int end = Math.clamp(start + 10, start, products.size());
-            List<Product> subProduct = products.subList(start, end);
+            int startIndex = Math.max(0, (page - 1) * 10);
+            int dataAmount = page * 10 > productAmount ? (int)(productAmount % 10) : (int)10;
+            List<Product> subProduct = productService.getProducts(startIndex, dataAmount);
             		
             getSession().setAttribute("productList", subProduct);
-            getSession().setAttribute("totalPages", products.size() / 10);
+            getSession().setAttribute("totalPages", Math.ceil((float)productAmount / 10));
                    
             return "SUCCESS"; // 返回視圖名稱 
         } catch (Exception e) {

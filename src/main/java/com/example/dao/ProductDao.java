@@ -6,15 +6,19 @@ import com.example.pojo.entity.Category;
 import com.example.pojo.entity.Product;
 
 public interface ProductDao {
-	Product findById(int id);
+	public Product findById(int id);
 
-	List<Product> findAll();
+	public List<Product> findAll();
+	
+	public long getProductAmount();
+	
+	public List<Product> getProducts(int start, int maxResults);
 
-	List<Product> findByCategory(Category category);
+	public List<Product> findByCategory(Category category);
 
-	void save(Product product);
+	public void save(Product product);
 
-	void update(Product product);
+	public void update(Product product);
 
-	void delete(Product product);
+	public void delete(Product product);
 }

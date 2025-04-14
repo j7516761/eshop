@@ -7,15 +7,15 @@ import com.example.pojo.entity.Category;
 //CategoryDao.java
 public interface CategoryDao {
 
-	Category findById(int id);
+	public Category findById(int id);
 
-	List<Category> findAll();
+	public List<Category> findAll();
 
-	Category save(Category category);
+	public Category save(Category category);
 
-	void deleteById(int id);
+	public void deleteById(int id);
 
-	Category findByName(String name);
+	public Category findByName(String name);
 
-	List<Category> searchByName(String keyword);
+	public List<Category> searchByName(String keyword);
 }
