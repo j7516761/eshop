@@ -30,7 +30,7 @@ public class ProductAction extends BaseAction {
 		getSession().setAttribute("categories", categories);
 
 		int categoryId = getCategoryId();
-		getSession().setAttribute("category", categoryId);
+		getSession().setAttribute("selectCategoryId", categoryId);
 		
 		long productAmount;
 		if (categoryId == 0)

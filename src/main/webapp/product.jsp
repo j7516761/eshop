@@ -15,7 +15,9 @@
 			name="category">
 			<option value="">所有分類</option>
 			<c:forEach var="category" items="${categories}">
-				<option value="${category.id}">${category.name}</option>
+				<option value="${category.id}"
+					<c:if test="${category.id == selectCategoryId}">selected</c:if>>
+					${category.name}</option>
 			</c:forEach>
 		</select> <input type="submit" value="篩選">
 	</form>
