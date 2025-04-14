@@ -10,11 +10,17 @@ public interface ProductDao {
 
 	public List<Product> findAll();
 	
-	public long getProductAmount();
+	public long findProductAmount();
 	
-	public List<Product> getProducts(int start, int maxResults);
+	public long findProductAmountByCategory(int categoryId);
+	
+	public List<Product> findProducts(int start, int maxResults);
 
 	public List<Product> findByCategory(Category category);
+	
+	public List<Product> findByCategory(int categoryId);
+	
+	public List<Product> findByCategory(int category, int start, int maxResults);
 
 	public void save(Product product);
 

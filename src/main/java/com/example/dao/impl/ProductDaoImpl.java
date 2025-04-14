@@ -31,10 +31,15 @@ public class ProductDaoImpl implements ProductDao {
 	public Product findById(int id) {
 		return getCurrentSession().get(Product.class, id);
 	}
-	
-	public long getProductAmount()
-	{
-		return getCurrentSession().createQuery("SELECT COUNT(p) FROM Product p", Long.class).uniqueResult();		
+
+	public long findProductAmount() {
+		return getCurrentSession().createQuery("SELECT COUNT(p) FROM Product p", Long.class).uniqueResult();
+	}
+
+	public long findProductAmountByCategory(int categoryId) {
+		return getCurrentSession()
+				.createQuery("SELECT COUNT(p) FROM Product p WHERE p.category.id = :categoryId ", Long.class)
+				.setParameter("categoryId", categoryId).uniqueResult();
 	}
 
 	@Override
@@ -43,7 +48,7 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Product> getProducts(int start, int maxResults) {
+	public List<Product> findProducts(int start, int maxResults) {
 		Session session = sessionFactory.openSession();
 		List<Product> products = null;
 		try {
@@ -65,9 +70,20 @@ public class ProductDaoImpl implements ProductDao {
 				.setParameter("category", category).getResultList();
 	}
 
+	@Override
 	public List<Product> findByCategory(int categoryId) {
 		return getCurrentSession().createQuery("FROM Product p WHERE p.category.id = :categoryId", Product.class)
 				.setParameter("categoryId", categoryId).getResultList();
+	}
+
+	@Override
+	public List<Product> findByCategory(int categoryId, int start, int maxResults) {
+		Query<Product> query = getCurrentSession()
+				.createQuery("FROM Product p WHERE p.category.id = :categoryId", Product.class)
+				.setParameter("categoryId", categoryId);
+		query.setFirstResult(start);
+		query.setMaxResults(maxResults);
+		return query.getResultList();
 	}
 
 	@Override

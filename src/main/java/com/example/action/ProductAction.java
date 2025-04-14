@@ -11,58 +11,77 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class ProductAction extends BaseAction{
+public class ProductAction extends BaseAction {
 
+	private static int ProductAmountPerPage = 10;
+	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
-    private ProductService productService;
-	
+	private ProductService productService;
+
 	@Autowired
 	private CategoryService categoryService;
 	
-    public String listProducts() {
-        try {
-            // 獲取產品列表
-            //List<Product> products = productService.getAllProducts();
-            
-            long productAmount = productService.getProductAmount();
-            int page = getCurrentPageIndex();
-            int startIndex = Math.max(0, (page - 1) * 10);
-            int dataAmount = page * 10 > productAmount ? (int)(productAmount % 10) : (int)10;
-            List<Product> subProduct = productService.getProducts(startIndex, dataAmount);
-            		
-            getSession().setAttribute("productList", subProduct);
-            getSession().setAttribute("totalPages", Math.ceil((float)productAmount / 10));
-                   
-            return "SUCCESS"; // 返回視圖名稱 
-        } catch (Exception e) {
-            e.printStackTrace();
-            getSession().setAttribute("errorMessage", "無法獲取產品列表");
-            return "ERROR"; // 返回錯誤視圖名稱
-        }
-    }
-    
-    private int getCurrentPageIndex()
-    {
-        // 將產品列表放入請求屬性中
-        ActionContext context = ActionContext.getContext();
-        // 獲取 request 中的 "page" 參數        
-        Parameter pageParam = context.getParameters().get("page");
-        int page = 1;      
-        if (pageParam != null ) {            
-        	try {
-        		String valueString = pageParam.getValue();
-        		page = Integer.parseInt(valueString);            
-        	}  catch (NumberFormatException e) {                             
-        		page = 1;
-        	}
-        }
-        return page;
-    }
-    
-    public String initDB()
-    {
+	private int categorIdCache;
+
+	public String listProducts() {
+		List<Category> categories = categoryService.getAllCategories();
+		getSession().setAttribute("categories", categories);
+
+		int categoryId = getCategoryId();
+		getSession().setAttribute("category", categoryId);
+		
+		long productAmount;
+		if (categoryId == 0)
+			productAmount= productService.findProductAmount();
+		else
+			productAmount= productService.findProductAmountByCategory(categoryId);		
+		getSession().setAttribute("totalPages", Math.ceil((float) productAmount / ProductAmountPerPage));
+		
+		boolean isCategortIdhange = categorIdCache != categoryId;
+		int page = isCategortIdhange ? 0 : getCurrentPageIndex();
+		int startIndex = Math.max(0, (page - 1) * ProductAmountPerPage);
+		int maxResults = page * ProductAmountPerPage > productAmount ? (int) (productAmount % ProductAmountPerPage) : (int) ProductAmountPerPage;			
+					
+		List<Product> subProduct;	
+		if (categoryId == 0) {
+			subProduct = productService.findProducts(startIndex, maxResults);
+		} else {				
+			subProduct = productService.findProductsByCategory(categoryId, startIndex, maxResults);
+		}
+		getSession().setAttribute("productList", subProduct);
+		
+		return "SUCCESS"; // 返回視圖名稱
+	}
+
+	private int getCategoryId() {
+		String categoryString = getRequest().getParameter("category");
+		if (categoryString == null)
+			return 0;
+		
+		try {
+			return Integer.parseInt(categoryString);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	private int getCurrentPageIndex() {
+		ActionContext context = ActionContext.getContext();
+		Parameter pageParam = context.getParameters().get("page");
+		if (pageParam == null)
+			return 1;
+
+		try {
+			String valueString = pageParam.getValue();
+			return Integer.parseInt(valueString);
+		} catch (NumberFormatException e) {
+			return 1;
+		}
+	}
+
+	public String initDB() {
 //    	for(int i = 1; i <= 50; i++)
 //    	{
 //    		Product p = new Product();
@@ -76,6 +95,6 @@ public class ProductAction extends BaseAction{
 //    		productService.updateProduct(p);
 //    	}
 
-    	return "SUCCESS"; 
-    }
+		return "SUCCESS";
+	}
 }

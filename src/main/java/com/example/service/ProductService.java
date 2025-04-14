@@ -8,13 +8,15 @@ import com.example.pojo.entity.Product;
 //ProductService.java
 public interface ProductService {
 
-	public Product getProductById(int productId);
+	public Product findProductById(int productId);
 
-	public long getProductAmount();
+	public long findProductAmount();
 	
-	public List<Product> getAllProducts();
+	public long findProductAmountByCategory(int categoryId);
 	
-	public List<Product> getProducts(int start, int maxResults);
+	public List<Product> findAllProducts();
+	
+	public List<Product> findProducts(int start, int maxResults);
 
 	public void createProduct(Product product);
 
@@ -22,5 +24,7 @@ public interface ProductService {
 
 	public void deleteProduct(int productId);
 
-	public List<Product> getProductsByCategory(Category category);
+	public List<Product> findProductsByCategory(Category category);
+	
+	public List<Product> findProductsByCategory(int category, int start, int maxResults);
 }
