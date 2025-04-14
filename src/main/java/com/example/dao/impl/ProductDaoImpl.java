@@ -3,37 +3,29 @@ package com.example.dao.impl;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.example.dao.ProductDao;
-import com.example.pojo.entity.Category;
 import com.example.pojo.entity.Product;
 
 @Repository
-public class ProductDaoImpl implements ProductDao {
+public class ProductDaoImpl extends BaseDaoImpl<Product, Integer> implements ProductDao {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-
-//	@Autowired
-//	public ProductDaoImpl(SessionFactory sessionFactory) {
-//		this.sessionFactory = sessionFactory;
-//	}
-
-	private Session getCurrentSession() {
-		return sessionFactory.getCurrentSession();
+	public ProductDaoImpl() {
+		super(Product.class);
 	}
 
 	@Override
-	public Product findById(int id) {
-		return getCurrentSession().get(Product.class, id);
+	public Product findByName(String name) {
+		return getCurrentSession().createQuery("FROM Product WHERE name = :name", Product.class)
+				.setParameter("name", name).uniqueResult();
 	}
 
-	public long findProductAmount() {
-		return getCurrentSession().createQuery("SELECT COUNT(p) FROM Product p", Long.class).uniqueResult();
+	@Override
+	public List<Product> searchByName(String keyword) {
+		return getCurrentSession().createQuery("FROM Product WHERE name LIKE :keyword", Product.class)
+				.setParameter("keyword", "%" + keyword + "%").list();
 	}
 
 	public long findProductAmountByCategory(int categoryId) {
@@ -65,12 +57,6 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Product> findByCategory(Category category) {
-		return getCurrentSession().createQuery("FROM Product p WHERE p.category = :category", Product.class)
-				.setParameter("category", category).getResultList();
-	}
-
-	@Override
 	public List<Product> findByCategory(int categoryId) {
 		return getCurrentSession().createQuery("FROM Product p WHERE p.category.id = :categoryId", Product.class)
 				.setParameter("categoryId", categoryId).getResultList();
@@ -84,21 +70,5 @@ public class ProductDaoImpl implements ProductDao {
 		query.setFirstResult(start);
 		query.setMaxResults(maxResults);
 		return query.getResultList();
-	}
-
-	@Override
-	public void save(Product product) {
-//		getCurrentSession().persist(product);
-		getCurrentSession().save(product);
-	}
-
-	@Override
-	public void update(Product product) {
-		getCurrentSession().saveOrUpdate(product);
-	}
-
-	@Override
-	public void delete(Product product) {
-		getCurrentSession().remove(product);
 	}
 }
