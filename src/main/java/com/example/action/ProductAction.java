@@ -52,7 +52,7 @@ public class ProductAction extends BaseAction {
 		}
 		getSession().setAttribute("productList", subProduct);
 		
-		return "SUCCESS"; // 返回視圖名稱
+		return "SUCCESS";
 	}
 
 	private int getCategoryId() {
@@ -68,14 +68,12 @@ public class ProductAction extends BaseAction {
 	}
 
 	private int getCurrentPageIndex() {
-		ActionContext context = ActionContext.getContext();
-		Parameter pageParam = context.getParameters().get("page");
-		if (pageParam == null)
+		String pageString = getRequest().getParameter("page");
+		if (pageString == null)
 			return 1;
 
 		try {
-			String valueString = pageParam.getValue();
-			return Integer.parseInt(valueString);
+			return Integer.parseInt(pageString);
 		} catch (NumberFormatException e) {
 			return 1;
 		}

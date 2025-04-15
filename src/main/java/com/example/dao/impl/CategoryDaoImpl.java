@@ -17,9 +17,8 @@ public class CategoryDaoImpl extends BaseDaoImpl<Category, Long> implements Cate
 
     @Override
     public List<Category> searchByName(String keyword) {
-        return getCurrentSession()
-            .createQuery("FROM Category WHERE name LIKE :keyword", Category.class)
-            .setParameter("keyword", "%" + keyword + "%")
-            .list();
+    	String hql = "FROM Category WHERE name LIKE :keyword";
+        return getCurrentSession().createQuery(hql, Category.class)
+            .setParameter("keyword", "%" + keyword + "%").list();
     }
 }

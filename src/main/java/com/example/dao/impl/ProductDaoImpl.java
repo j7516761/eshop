@@ -17,20 +17,22 @@ public class ProductDaoImpl extends BaseDaoImpl<Product, Integer> implements Pro
 	}
 
 	@Override
-	public Product findByName(String name) {
-		return getCurrentSession().createQuery("FROM Product WHERE name = :name", Product.class)
+	public Product findByName(String name) {		
+		String hql = "FROM Product WHERE name = :name";
+		return getCurrentSession().createQuery(hql, Product.class)
 				.setParameter("name", name).uniqueResult();
 	}
 
 	@Override
 	public List<Product> searchByName(String keyword) {
-		return getCurrentSession().createQuery("FROM Product WHERE name LIKE :keyword", Product.class)
+		String hql = "FROM Product WHERE name LIKE :keyword";
+		return getCurrentSession().createQuery(hql, Product.class)
 				.setParameter("keyword", "%" + keyword + "%").list();
 	}
 
 	public long findProductAmountByCategory(int categoryId) {
-		return getCurrentSession()
-				.createQuery("SELECT COUNT(p) FROM Product p WHERE p.category.id = :categoryId ", Long.class)
+		String hql = "SELECT COUNT(p) FROM Product p WHERE p.category.id = :categoryId ";
+		return getCurrentSession().createQuery(hql, Long.class)
 				.setParameter("categoryId", categoryId).uniqueResult();
 	}
 
@@ -41,31 +43,25 @@ public class ProductDaoImpl extends BaseDaoImpl<Product, Integer> implements Pro
 
 	@Override
 	public List<Product> findProducts(int start, int maxResults) {
-		Session session = sessionFactory.openSession();
-		List<Product> products = null;
-		try {
-			String hql = "FROM Product";
-			Query<Product> query = getCurrentSession().createQuery(hql, Product.class);
-			// 設置查詢的起始位置和返回的最大數量
-			query.setFirstResult(start);
-			query.setMaxResults(maxResults);
-			products = query.list();
-		} finally {
-			session.close();
-		}
+		String hql = "FROM Product";
+		Query<Product> query = getCurrentSession().createQuery(hql, Product.class);
+		query.setFirstResult(start);
+		query.setMaxResults(maxResults);
+		List<Product> products = query.list();
 		return products;
 	}
 
 	@Override
 	public List<Product> findByCategory(int categoryId) {
-		return getCurrentSession().createQuery("FROM Product p WHERE p.category.id = :categoryId", Product.class)
+		String hql = "FROM Product p WHERE p.category.id = :categoryId";
+		return getCurrentSession().createQuery(hql, Product.class)
 				.setParameter("categoryId", categoryId).getResultList();
 	}
 
 	@Override
 	public List<Product> findByCategory(int categoryId, int start, int maxResults) {
-		Query<Product> query = getCurrentSession()
-				.createQuery("FROM Product p WHERE p.category.id = :categoryId", Product.class)
+		String hql = "FROM Product p WHERE p.category.id = :categoryId";
+		Query<Product> query = getCurrentSession().createQuery(hql, Product.class)
 				.setParameter("categoryId", categoryId);
 		query.setFirstResult(start);
 		query.setMaxResults(maxResults);
