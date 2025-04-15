@@ -27,17 +27,17 @@ public class ProductAction extends BaseAction {
 
 	public String listProducts() {
 		List<Category> categories = categoryService.getAllCategories();
-		getSession().setAttribute("categories", categories);
+		getRequest().setAttribute("categories", categories);
 
 		int categoryId = getCategoryId();
-		getSession().setAttribute("selectCategoryId", categoryId);
+		getRequest().setAttribute("selectCategoryId", categoryId);
 		
 		long productAmount;
 		if (categoryId == 0)
 			productAmount= productService.findProductAmount();
 		else
 			productAmount= productService.findProductAmountByCategory(categoryId);		
-		getSession().setAttribute("totalPages", Math.ceil((float) productAmount / ProductAmountPerPage));
+		getRequest().setAttribute("totalPages", Math.ceil((float) productAmount / ProductAmountPerPage));
 		
 		boolean isCategortIdhange = categorIdCache != categoryId;
 		int page = isCategortIdhange ? 0 : getCurrentPageIndex();
@@ -50,7 +50,7 @@ public class ProductAction extends BaseAction {
 		} else {				
 			subProduct = productService.findProductsByCategory(categoryId, startIndex, maxResults);
 		}
-		getSession().setAttribute("productList", subProduct);
+		getRequest().setAttribute("productList", subProduct);
 		
 		return "SUCCESS";
 	}

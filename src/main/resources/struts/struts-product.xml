@@ -6,6 +6,7 @@
 	<package name="product" extends="default" namespace="/product">
 		<interceptors>
 			<interceptor-stack name="productStack">
+				<interceptor-ref name="defaultStack" />  <!-- 必須包含基礎攔截器 -->
 				<interceptor-ref name="modelDrivenStack" />
 				<interceptor-ref name="fileUpload" />
 			</interceptor-stack>
@@ -16,20 +17,20 @@
 		<!-- 定義顯示產品列表的 Action -->
 		<action name="list" class="com.example.action.ProductAction"
 			method="listProducts">
-			<result name="SUCCESS" type="redirect">/product.jsp</result>
-			<result name="ERROR" type="redirect">/error.jsp</result>
+			<result name="SUCCESS">/product.jsp</result>
+			<result name="ERROR">/error.jsp</result>
 		</action>
 
 		<action name="initDB" class="com.example.action.ProductAction"
 			method="initDB">
-			<result name="SUCCESS" type="redirect">/product.jsp</result>
+			<result name="SUCCESS">/product.jsp</result>
 		</action>
 
 		<!-- 定義保存新產品的 Action -->
 		<action name="save" class="com.example.action.ProductAction"
 			method="saveProduct">
-			<result name="SUCCESS" type="redirect">/product.jsp</result>
-			<result name="ERROR" type="redirect">/error.jsp</result>
+			<result name="SUCCESS">/product.jsp</result>
+			<result name="ERROR">/error.jsp</result>
 		</action>
 	</package>
 </struts>
