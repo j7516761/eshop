@@ -27,9 +27,9 @@
 		</action>
 
 		<!-- 定義保存新產品的 Action -->
-		<action name="save" class="com.example.action.ProductAction"
-			method="saveProduct">
-			<result name="SUCCESS">/WEB-INF/views/product/product.jsp</result>
+		<action name="productDetail" class="com.example.action.ProductAction"
+			method="productDetail">
+			<result name="SUCCESS">/WEB-INF/views/product/productDetail.jsp</result>
 			<result name="ERROR">/error.jsp</result>
 		</action>
 	</package>

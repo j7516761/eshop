@@ -31,6 +31,11 @@ public class ProductAction extends BaseAction {
 		listProducts();
 		return SUCCESS;
 	}
+	
+	public String productDetail()
+	{
+		return SUCCESS;
+	}
 
 	public String listProducts() {
 		//List<Category> categories = categoryService.getAllCategories();
