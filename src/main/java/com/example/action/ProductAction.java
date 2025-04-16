@@ -11,9 +11,10 @@ import java.util.List;
 
 public class ProductAction extends BaseAction {
 
-	private static int ProductAmountPerPage = 3;
+	private int currentPage = 1;  // 必須有setter
 
 	private int totalPages; // 總頁數
+	
 	private List<Product> products = new ArrayList<>();
 
 	private static final long serialVersionUID = 1L;
@@ -38,11 +39,10 @@ public class ProductAction extends BaseAction {
 		int categoryId = getCategoryId();
 		//getRequest().setAttribute("selectCategoryId", categoryId);
 
-		long productAmount = productService.findProductAmountByCategory(categoryId);
-		totalPages = (int) Math.ceil((float) productAmount / ProductAmountPerPage);
+		totalPages = productService.findTotalPages(categoryId);
 
 		int pageIndex = getCurrentPageIndex(categoryId);
-		products = productService.findProductsByCategory(categoryId, pageIndex, ProductAmountPerPage);
+		products = productService.findProductsByCategory(categoryId, pageIndex);
 
 		categoryIdCache = categoryId;
 		return "SUCCESS";
@@ -78,6 +78,14 @@ public class ProductAction extends BaseAction {
 		} catch (NumberFormatException e) {
 			return 1;
 		}
+	}
+	
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = (currentPage < 1) ? 1 : currentPage;
 	}
 
 	public List<Product> getProducts() {
