@@ -36,11 +36,10 @@
         <s:iterator value="products" status="stat">
             <div class="col">
                 <div class="card h-100 shadow-sm">
-                    <img src="<s:property value='imageURL'/>" 
-                         class="card-img-top card-img-custom" 
-                         alt="<s:property value='productName'/>">
+                	<s:url value="/resources/images/products/%{imageUrl}" var="dynamicImg"/>
+                	<img src="${dynamicImg}" alt="<s:property value='product.name'/>">
                     <div class="card-body">
-                        <h5 class="card-title"><s:property value="productName"/></h5>
+                        <h5 class="card-title"><s:property value="name"/></h5>
                         <p class="card-text text-muted"><s:property value="description"/></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="price-tag">$<s:property value="price"/></span>
