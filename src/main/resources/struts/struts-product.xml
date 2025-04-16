@@ -4,15 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<package name="product" extends="struts-default" namespace="/product">
-		<interceptors>
-			<interceptor-stack name="productStack">
-				<interceptor-ref name="defaultStack" />  <!-- 必須包含基礎攔截器 -->
-				<interceptor-ref name="modelDrivenStack" />
-				<interceptor-ref name="fileUpload" />
-			</interceptor-stack>
-		</interceptors>
 
-		<default-interceptor-ref name="productStack" />
 
 		<!-- 定義顯示產品列表的 Action -->
 		<action name="list" class="com.example.action.ProductAction"
@@ -27,10 +19,9 @@
 		</action>
 
 		<!-- 定義保存新產品的 Action -->
-		<action name="productDetail" class="com.example.action.ProductAction"
+		<action name="detail" class="com.example.action.ProductAction"
 			method="productDetail">
-			<result name="SUCCESS">/WEB-INF/views/product/productDetail.jsp</result>
-			<result name="ERROR">/error.jsp</result>
+			<result>/WEB-INF/views/product/productDetail.jsp</result>
 		</action>
 	</package>
 </struts>

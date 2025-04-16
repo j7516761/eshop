@@ -37,7 +37,7 @@
             <div class="col">
                 <div class="card h-100 shadow-sm">
                 	<s:url value="/resources/images/products/%{imageUrl}" var="dynamicImg"/>
-                	<a href="productDetail">
+                	<a href="detail">
                 		<img src="${dynamicImg}" alt="<s:property value='product.name'/>">
                 	</a>
                     <div class="card-body">

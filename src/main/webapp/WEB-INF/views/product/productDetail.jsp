@@ -45,7 +45,7 @@
         <!-- 麵包屑導航 -->
         <nav aria-label="breadcrumb" class="mt-3">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<s:url action='listProducts'/>">商品列表</a></li>
+                <li class="breadcrumb-item"><a href="list">商品列表</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><s:property value="product.name"/></li>
             </ol>
         </nav>
