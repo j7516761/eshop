@@ -4,17 +4,18 @@ import com.example.pojo.entity.Category;
 import com.example.pojo.entity.Product;
 import com.example.service.CategoryService;
 import com.example.service.ProductService;
-import com.opensymphony.xwork2.ActionContext;
-
-import org.apache.struts2.dispatcher.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAction extends BaseAction {
 
-	private static int ProductAmountPerPage = 10;
-	
+	private static int ProductAmountPerPage = 3;
+
+	private int totalPages; // 總頁數
+	private List<Product> products = new ArrayList<>();
+
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
@@ -22,44 +23,40 @@ public class ProductAction extends BaseAction {
 
 	@Autowired
 	private CategoryService categoryService;
-	
-	private int categorIdCache;
+
+	private int categoryIdCache;
+
+	public String execute() {
+		listProducts();
+		return SUCCESS;
+	}
 
 	public String listProducts() {
-		List<Category> categories = categoryService.getAllCategories();
-		getRequest().setAttribute("categories", categories);
+		//List<Category> categories = categoryService.getAllCategories();
+		//getRequest().setAttribute("categories", categories);
 
 		int categoryId = getCategoryId();
-		getRequest().setAttribute("selectCategoryId", categoryId);
-		
-		long productAmount;
-		if (categoryId == 0)
-			productAmount= productService.findProductAmount();
-		else
-			productAmount= productService.findProductAmountByCategory(categoryId);		
-		getRequest().setAttribute("totalPages", Math.ceil((float) productAmount / ProductAmountPerPage));
-		
-		boolean isCategortIdhange = categorIdCache != categoryId;
-		int page = isCategortIdhange ? 0 : getCurrentPageIndex();
-		int startIndex = Math.max(0, (page - 1) * ProductAmountPerPage);
-		int maxResults = page * ProductAmountPerPage > productAmount ? (int) (productAmount % ProductAmountPerPage) : (int) ProductAmountPerPage;			
-					
-		List<Product> subProduct;	
-		if (categoryId == 0) {
-			subProduct = productService.findProducts(startIndex, maxResults);
-		} else {				
-			subProduct = productService.findProductsByCategory(categoryId, startIndex, maxResults);
-		}
-		getRequest().setAttribute("productList", subProduct);
-		
+		//getRequest().setAttribute("selectCategoryId", categoryId);
+
+		long productAmount = productService.findProductAmountByCategory(categoryId);
+		totalPages = (int) Math.ceil((float) productAmount / ProductAmountPerPage);
+
+		int pageIndex = getCurrentPageIndex(categoryId);
+		products = productService.findProductsByCategory(categoryId, pageIndex, ProductAmountPerPage);
+
+		categoryIdCache = categoryId;
 		return "SUCCESS";
+	}
+
+	public int getTotalPages() {
+		return totalPages;
 	}
 
 	private int getCategoryId() {
 		String categoryString = getRequest().getParameter("category");
 		if (categoryString == null)
 			return 0;
-		
+
 		try {
 			return Integer.parseInt(categoryString);
 		} catch (NumberFormatException e) {
@@ -67,8 +64,12 @@ public class ProductAction extends BaseAction {
 		}
 	}
 
-	private int getCurrentPageIndex() {
-		String pageString = getRequest().getParameter("page");
+	private int getCurrentPageIndex(int categoryId) {
+
+		if (categoryIdCache != categoryId)
+			return 1;
+
+		String pageString = getRequest().getParameter("currentPage");
 		if (pageString == null)
 			return 1;
 
@@ -77,6 +78,10 @@ public class ProductAction extends BaseAction {
 		} catch (NumberFormatException e) {
 			return 1;
 		}
+	}
+
+	public List<Product> getProducts() {
+		return products;
 	}
 
 	public String initDB() {

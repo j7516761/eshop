@@ -25,6 +25,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public long findProductAmountByCategory(int categoryId) {
+		if (categoryId == 0)
+			return findProductAmount();
+					
 		return productDao.findProductAmountByCategory(categoryId);
 	}
 
@@ -34,7 +37,14 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> findProductsByCategory(int categoryId, int start, int maxResults) {
-		return productDao.findByCategory(categoryId, start, maxResults);
+	public List<Product> findProductsByCategory(int categoryId, int pageIndex, int productAmountPerPage) {		
+		long productAmount = findProductAmount();
+		int startIndex = Math.max(0, (pageIndex - 1) * productAmountPerPage);
+		int maxResults = pageIndex * productAmountPerPage > productAmount ? (int) (productAmount % productAmountPerPage) : (int) productAmountPerPage;			
+	
+		if (categoryId == 0)
+			return findProducts(startIndex, maxResults);
+		
+		return productDao.findByCategory(categoryId, startIndex, maxResults);
 	}
 }
