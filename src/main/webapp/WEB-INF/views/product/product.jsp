@@ -86,7 +86,7 @@
 							<a
 								href="<s:url action='addToCart'><s:param name='productId' value='id'/></s:url>"
 								class="btn btn-primary w-100"> <i class="bi bi-cart-plus"></i>
-								加入購物車
+								<s:text name="product.addToCart"/>
 							</a>
 						</div>
 					</div>
