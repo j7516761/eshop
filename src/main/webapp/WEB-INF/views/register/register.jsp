@@ -1,5 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="com.example.pojo.entity.User" contentType="text/html;charset=utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+
+<%
+    // 獲取當前會話中的用戶物件
+    User user = (User) session.getAttribute("user");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,10 +30,10 @@
 <body>
     <h2>用戶註冊</h2>
     <s:actionerror cssClass="error"/>
-    <s:form action="register/register" method="post" onsubmit="return validateForm()">
+    <s:form action="save" method="post" onsubmit="return validateForm()">
         <div class="form-group">
-            <s:textfield name="user.username" label="用戶名" required="true"/>
-            <s:fielderror fieldName="user.username" cssClass="error"/>
+            <s:textfield name="user.id" label="用戶名" required="true"/>
+            <s:fielderror fieldName="user.id" cssClass="error"/>
         </div>
         <div class="form-group">
             <s:password name="user.password" label="密碼" required="true"/>

@@ -20,22 +20,33 @@
 </style>
 </head>
 <body class="bg-light">
-	<!-- 在product.jsp頂部添加語言切換 -->
-	<div class="language-switcher">
-		<s:url var="zhLink" value="">
-			<s:param name="request_locale">zh_CN</s:param>
-		</s:url>
-		<s:url var="enLink" value="">
-			<s:param name="request_locale">en_US</s:param>
-		</s:url>
-		<a href="${zhLink}"
-			class="lang-btn <s:if test="#session['WW_TRANS_I18N_LOCALE'] == 'zh_CN'">active</s:if>">
-			<s:text name="language.zh" />
-		</a> <a href="${enLink}"
-			class="lang-btn <s:if test="#session['WW_TRANS_I18N_LOCALE'] == 'en_US'">active</s:if>">
-			<s:text name="language.en" />
-		</a>
-	</div>
+	<!-- 新增頂部導航 -->
+	<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+		<!-- 在product.jsp頂部添加語言切換 -->
+		<div class="language-switcher">
+			<s:url var="zhLink" value="">
+				<s:param name="request_locale">zh_CN</s:param>
+			</s:url>
+			<s:url var="enLink" value="">
+				<s:param name="request_locale">en_US</s:param>
+			</s:url>
+			<a href="${zhLink}"
+				class="lang-btn <s:if test="#session['WW_TRANS_I18N_LOCALE'] == 'zh_CN'">active</s:if>">
+				<s:text name="language.zh" />
+			</a> <a href="${enLink}"
+				class="lang-btn <s:if test="#session['WW_TRANS_I18N_LOCALE'] == 'en_US'">active</s:if>">
+				<s:text name="language.en" />
+			</a>
+		</div>
+
+		<!-- 登入/註冊區塊 -->
+		<div class="auth-section">
+			<s:url var="loginUrl" value="/login.jsp" />
+			<a href="${loginUrl}" class="btn btn-primary btn-sm"> <i
+				class="bi bi-box-arrow-in-right"></i> <s:text name="login.button" />
+			</a>
+		</div>
+	</nav>
 
 	<div class="container py-5">
 		<h1 class="mb-4 text-center">
@@ -86,7 +97,7 @@
 							<a
 								href="<s:url action='addToCart'><s:param name='productId' value='id'/></s:url>"
 								class="btn btn-primary w-100"> <i class="bi bi-cart-plus"></i>
-								<s:text name="product.addToCart"/>
+								<s:text name="product.addToCart" />
 							</a>
 						</div>
 					</div>

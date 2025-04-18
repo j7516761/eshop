@@ -3,7 +3,7 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
     "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
-    <package name="login" extends="default" namespace="/login">
+    <package name="login" extends="struts-default">
         <interceptors>
             <!-- 
                 定義當前 package（封裝作用域）的攔截器堆疊 
@@ -43,7 +43,7 @@
             <!-- 
                 當登入成功時，導向至首頁 
             -->
-            <result name="success" type="redirect">/home/index</result>
+            <result name="success" type="redirect">product/list</result>
         </action>
     </package>
 </struts>

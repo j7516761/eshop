@@ -15,7 +15,7 @@
 
 		<action name="initDB" class="com.example.action.ProductAction"
 			method="initDB">
-			<result name="SUCCESS">/WEB-INF/views/product/product.jsp</result>
+			<result name="success">/WEB-INF/views/product/product.jsp</result>
 		</action>
 
 		<!-- 定義保存新產品的 Action -->

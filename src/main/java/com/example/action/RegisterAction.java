@@ -42,6 +42,10 @@ public class RegisterAction extends BaseAction {
      * @return 註冊成功返回 SUCCESS，失敗返回 INPUT
      */
     public String save() {
+    	
+    	user.setName(user.getId());
+    	user.setLoginId(user.getId());
+    	
         // 註冊前的資料檢查
         if (!doCheck(user)) {
             return INPUT;
