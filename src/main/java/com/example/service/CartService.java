@@ -9,4 +9,5 @@ public interface CartService {
     void addItemToCart(User user, Product product, int quantity);
     void removeItemFromCart(User user, int productId);
     void updateItemQuantity(User user, int productId, int quantity);
+    double calculateTotalAmount(User user);
 }

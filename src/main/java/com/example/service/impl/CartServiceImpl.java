@@ -89,4 +89,17 @@ public class CartServiceImpl implements CartService {
 		}
 		cartDao.updateCart(cart);
 	}
+
+	// 新增計算總金額的方法
+	@Override
+	public double calculateTotalAmount(User user) {
+		Cart cart = getCartByUser(user);
+		Set<CartItem> cartItems = cart.getCartItems();
+		double totalAmount = 0.0;
+		for (CartItem item : cartItems) {
+			Product product = item.getProduct();
+			totalAmount += product.getPrice() * item.getQuantity();
+		}
+		return totalAmount;
+	}
 }

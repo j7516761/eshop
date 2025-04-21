@@ -26,6 +26,7 @@ public class CartAction extends BaseAction {
 
 	private int productId;
 	private int quantity;
+	private double totalAmount;
 	private Cart cart;
 
 	public String viewCart() {
@@ -33,6 +34,7 @@ public class CartAction extends BaseAction {
 
 		Set<CartItem> items = cart.getCartItems();
 		getRequest().setAttribute("cartItems", items);
+		totalAmount = cartService.calculateTotalAmount(getUser());
 		return SUCCESS;
 	}
 
@@ -82,4 +84,12 @@ public class CartAction extends BaseAction {
     public void setQuantity(int quantity) {     
     	this.quantity = quantity;    
     }
+
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}   
 }
