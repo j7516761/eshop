@@ -17,51 +17,69 @@ import java.util.Set;
 public class CartAction extends BaseAction {
 
 	private User user;
-	
-    @Autowired
-    private CartService cartService;
 
-    @Autowired
-    private ProductService productService;
+	@Autowired
+	private CartService cartService;
 
-    private int productId;
-    private Cart cart;
+	@Autowired
+	private ProductService productService;
 
-    public String viewCart() {
-        cart = cartService.getCartByUser(getUser());
-        
-        Set<CartItem> items = cart.getCartItems();
-        getRequest().setAttribute("cartItems", items);
-        return SUCCESS;
-    }
+	private int productId;
+	private int quantity;
+	private Cart cart;
 
-    public String addToCart() {
-        Product product = productService.findProductById(productId);
-        if (product != null) {
-            cartService.addItemToCart(getUser(), product, 1);
-        }
-        return SUCCESS;
-    }
+	public String viewCart() {
+		cart = cartService.getCartByUser(getUser());
 
-    public String removeItem() {
-        cartService.removeItemFromCart(getUser(), productId);
-        return SUCCESS;
-    }
+		Set<CartItem> items = cart.getCartItems();
+		getRequest().setAttribute("cartItems", items);
+		return SUCCESS;
+	}
 
-    private User getUser() {
-    	user = (User)getSession().getAttribute(ConstantName.SESSION_USER);
-    	return user;
+	public String addToCart() {
+		Product product = productService.findProductById(productId);
+		if (product != null) {
+			cartService.addItemToCart(getUser(), product, 1);
+		}
+		return SUCCESS;
+	}
+
+	public String removeItem() {
+		cartService.removeItemFromCart(getUser(), productId);
+		return SUCCESS;
+	}
+
+	// 新增 updateQuantity 方法
+	public String updateQuantity() {
+		if (quantity > 0) {
+			cartService.updateItemQuantity(getUser(), productId, quantity);
+		}
+	return SUCCESS;
+
+	}
+
+	private User getUser() {
+		user = (User) getSession().getAttribute(ConstantName.SESSION_USER);
+		return user;
 	}
 
 	public int getProductId() {
-        return productId;
-    }
+		return productId;
+	}
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
-    public Cart getCart() {
-        return cart;
+	public Cart getCart() {
+		return cart;
+	}
+	
+    public int getQuantity() {       
+    	return quantity;    
+    }    
+    
+    public void setQuantity(int quantity) {     
+    	this.quantity = quantity;    
     }
 }

@@ -2,19 +2,27 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
     "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-    <package name="cart" namespace="/" extends="struts-default">
-        
-        <action name="viewCart" class="com.example.action.CartAction" method="viewCart">
-            <result name="success">/WEB-INF/views/cart/cart.jsp</result>
-        </action>
-        
-        <action name="addToCart" class="com.example.action.CartAction" method="addToCart">
-            <result name="success" type="redirectAction">/cart/viewCart</result>
-        </action>
+	<package name="cart" namespace="/" extends="struts-default">
 
-        <action name="removeItem" class="com.example.action.CartAction" method="removeItem">
-            <result name="success" type="redirectAction">/cart/viewCart</result>
-        </action>
+		<action name="viewCart" class="com.example.action.CartAction"
+			method="viewCart">
+			<result name="success">/WEB-INF/views/cart/cart.jsp</result>
+		</action>
 
-    </package>
+		<action name="addToCart" class="com.example.action.CartAction"
+			method="addToCart">
+			<result name="success" type="redirectAction">/cart/viewCart</result>
+		</action>
+
+		<action name="removeItem" class="com.example.action.CartAction"
+			method="removeItem">
+			<result name="success" type="redirectAction">/cart/viewCart</result>
+		</action>
+
+		<action name="updateQuantity"
+			class="com.example.action.CartAction" method="updateQuantity">
+			<result name="success" type="redirectAction">/cart/viewCart</result>
+		</action>
+
+	</package>
 </struts>

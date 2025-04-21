@@ -20,64 +20,73 @@ import java.util.Set;
 @Transactional
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    private CartDao cartDao;
+	@Autowired
+	private CartDao cartDao;
 
-    @Autowired
-    private CartItemDao cartItemDao;
+	@Autowired
+	private CartItemDao cartItemDao;
 
-    @Override
-    public Cart getCartByUser(User user) {
-        Cart cart = cartDao.findCartByUserId(user.getId());
-        if (cart == null) {
-            cart = new Cart();
-            cart.setUser(user); // 假設 User 類有對應的構造函數
-            cartDao.saveCart(cart);
-        }
-        else {        
-        	// 確保 cart 也能加載 cartItems        
-        	Hibernate.initialize(cart.getCartItems());
-        }
-        return cart;
-    }
+	@Override
+	public Cart getCartByUser(User user) {
+		Cart cart = cartDao.findCartByUserId(user.getId());
+		if (cart == null) {
+			cart = new Cart();
+			cart.setUser(user); // 假設 User 類有對應的構造函數
+			cartDao.saveCart(cart);
+		} else {
+			// 確保 cart 也能加載 cartItems
+			Hibernate.initialize(cart.getCartItems());
+		}
+		return cart;
+	}
 
-    @Override
-    public void addItemToCart(User user, Product product, int quantity) {
-        Cart cart = getCartByUser(user);
-        Set<CartItem> cartItems = cart.getCartItems();
+	@Override
+	public void addItemToCart(User user, Product product, int quantity) {
+		Cart cart = getCartByUser(user);
+		Set<CartItem> cartItems = cart.getCartItems();
 
-        CartItem existingCartItem = cartItems.stream()
-                .filter(item -> item.getProduct().getId() == product.getId())
-                .findFirst()
-                .orElse(null);
+		CartItem existingCartItem = cartItems.stream().filter(item -> item.getProduct().getId() == product.getId())
+				.findFirst().orElse(null);
 
-        if (existingCartItem != null) {
-            existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
-            cartItemDao.saveCartItem(existingCartItem);
-        } else {
-            CartItem cartItem = new CartItem(cart, product, quantity);
-            cartItems.add(cartItem);
-            cartItemDao.saveCartItem(cartItem);
-        }
+		if (existingCartItem != null) {
+			existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
+			cartItemDao.saveCartItem(existingCartItem);
+		} else {
+			CartItem cartItem = new CartItem(cart, product, quantity);
+			cartItems.add(cartItem);
+			cartItemDao.saveCartItem(cartItem);
+		}
 
-        cartDao.updateCart(cart);
-    }
+		cartDao.updateCart(cart);
+	}
 
-    @Override
-    public void removeItemFromCart(User user, int productId) {
-        Cart cart = getCartByUser(user);
-        Set<CartItem> cartItems = cart.getCartItems();
+	@Override
+	public void removeItemFromCart(User user, int productId) {
+		Cart cart = getCartByUser(user);
+		Set<CartItem> cartItems = cart.getCartItems();
 
-        CartItem cartItemToRemove = cartItems.stream()
-                .filter(item -> item.getProduct().getId() == productId)
-                .findFirst()
-                .orElse(null);
+		CartItem cartItemToRemove = cartItems.stream().filter(item -> item.getProduct().getId() == productId)
+				.findFirst().orElse(null);
 
-        if (cartItemToRemove != null) {
-            cartItems.remove(cartItemToRemove);
-            cartItemDao.deleteCartItem(cartItemToRemove);
-        }
+		if (cartItemToRemove != null) {
+			cartItems.remove(cartItemToRemove);
+			cartItemDao.deleteCartItem(cartItemToRemove);
+		}
 
-        cartDao.updateCart(cart);
-    }
+		cartDao.updateCart(cart);
+	}
+
+	// 新增更新商品數量的方法
+	@Override
+	public void updateItemQuantity(User user, int productId, int quantity) {
+		Cart cart = getCartByUser(user);
+		Set<CartItem> cartItems = cart.getCartItems();
+		CartItem existingCartItem = cartItems.stream().filter(item -> item.getProduct().getId() == productId)
+				.findFirst().orElse(null);
+		if (existingCartItem != null) {
+			existingCartItem.setQuantity(quantity);
+			cartItemDao.saveCartItem(existingCartItem);
+		}
+		cartDao.updateCart(cart);
+	}
 }
