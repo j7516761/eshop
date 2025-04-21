@@ -1,45 +1,51 @@
 package com.example.pojo.entity;
 
 import javax.persistence.*;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "cart")
 public class Cart {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<CartItem> cartItems;
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
-    // Getters and Setters
-    public int getId() {
-        return id;
-    }
+	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+	private Set<CartItem> cartItems;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	// Getters and Setters
+	public int getId() {
+		return id;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public Set<CartItem> getCartItems() {
+		return cartItems;
+	}
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
+	public void setCartItems(Set<CartItem> cartItems) {
+		this.cartItems = cartItems;
+	}
+
+	public void addItem(CartItem cartItem) {
+		cartItems.add(cartItem);	
+	}
 }

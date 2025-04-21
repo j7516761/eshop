@@ -43,9 +43,10 @@ public class LoginAction extends BaseAction {
             getSession().setAttribute("msg", "請提供有效的帳號與密碼");
             return INPUT;
         }
-
+        
         // 呼叫 UserService 來獲取使用者資料
         user = userService.getLoginUser(user);
+        user.setName(user.getLoginId());
 
         // 如果用戶資料存在且登入 ID 正確
         if (user != null && !"".equals(user.getLoginId())) {

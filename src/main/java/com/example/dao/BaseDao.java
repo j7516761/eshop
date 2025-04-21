@@ -16,5 +16,5 @@ public interface BaseDao<T, ID extends Serializable> {
 
 	public void deleteById(ID id);
 	
-	public void update(T entity);
+	public T update(T entity);
 }

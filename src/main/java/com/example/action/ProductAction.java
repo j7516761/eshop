@@ -50,7 +50,7 @@ public class ProductAction extends BaseAction {
 		products = productService.findProductsByCategory(categoryId, pageIndex);
 
 		categoryIdCache = categoryId;
-		return "SUCCESS";
+		return SUCCESS;
 	}
 
 	public int getTotalPages() {
@@ -111,6 +111,6 @@ public class ProductAction extends BaseAction {
 //    		productService.updateProduct(p);
 //    	}
 
-		return "SUCCESS";
+		return SUCCESS;
 	}
 }

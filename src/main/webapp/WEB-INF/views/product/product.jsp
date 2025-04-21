@@ -95,7 +95,7 @@
 						</div>
 						<div class="card-footer bg-transparent">
 							<a
-								href="<s:url action='addToCart'><s:param name='productId' value='id'/></s:url>"
+								href="<s:url action='../cart/addToCart'><s:param name='productId' value='id'/></s:url>"
 								class="btn btn-primary w-100"> <i class="bi bi-cart-plus"></i>
 								<s:text name="product.addToCart" />
 							</a>

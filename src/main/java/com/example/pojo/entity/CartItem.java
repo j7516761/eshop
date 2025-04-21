@@ -19,8 +19,18 @@ public class CartItem {
     private Product product;
 
     private int quantity;
+    
+    public CartItem() {
+    	
+    }
 
-    // Getters and Setters
+    public CartItem(Cart cart, Product product, Integer quantity) {
+		this.cart = cart;
+		this.product = product;
+		this.quantity = quantity;	
+	}
+
+	// Getters and Setters
     public int getId() {
         return id;
     }

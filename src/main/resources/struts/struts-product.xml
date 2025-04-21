@@ -9,8 +9,8 @@
 		<!-- 定義顯示產品列表的 Action -->
 		<action name="list" class="com.example.action.ProductAction"
 			method="listProducts">
-			<result name="SUCCESS">/WEB-INF/views/product/product.jsp</result>
-			<result name="ERROR">/error.jsp</result>
+			<result name="success">/WEB-INF/views/product/product.jsp</result>
+			<result name="error">/error.jsp</result>
 		</action>
 
 		<action name="initDB" class="com.example.action.ProductAction"

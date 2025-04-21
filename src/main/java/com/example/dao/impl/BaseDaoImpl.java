@@ -13,59 +13,61 @@ import java.util.List;
 @Transactional
 public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao<T, ID> {
 
-    @Autowired
-    protected SessionFactory sessionFactory;
+	@Autowired
+	protected SessionFactory sessionFactory;
 
-    private final Class<T> entityClass;
+	private final Class<T> entityClass;
 
-    protected BaseDaoImpl(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
+	protected BaseDaoImpl(Class<T> entityClass) {
+		this.entityClass = entityClass;
+	}
 
-    protected Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
-    }
+	protected Session getCurrentSession() {
+		return sessionFactory.getCurrentSession();
+	}
 
-    @Override
-    public T findById(ID id) {
-        return getCurrentSession().get(entityClass, id);
-    }
+	@Override
+	public T findById(ID id) {
+		return getCurrentSession().get(entityClass, id);
+	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<T> findAll() {
-        return getCurrentSession().createQuery("from " + entityClass.getName()).list();
-    }
-    
-    @Override
-    public long findAmount()
-    {
-    	String hql = "SELECT COUNT(*) FROM ";
-    	return getCurrentSession().createQuery(hql + entityClass.getName(), Long.class).uniqueResult();   	
-    }
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<T> findAll() {
+		return getCurrentSession().createQuery("from " + entityClass.getName()).list();
+	}
 
-    @Override
-    public T save(T entity) {
-        getCurrentSession().saveOrUpdate(entity);
-        return entity;
-    }
+	@Override
+	public long findAmount() {
+		String hql = "SELECT COUNT(*) FROM ";
+		return getCurrentSession().createQuery(hql + entityClass.getName(), Long.class).uniqueResult();
+	}
 
-    @Override
-    public void delete(T entity) {
-        getCurrentSession().delete(entity);
-    }
+	@Override
+	public T save(T entity) {
+		getCurrentSession().saveOrUpdate(entity);
+		return entity;
+	}
 
-    @Override
-    public void deleteById(ID id) {
-        T entity = findById(id);
-        if (entity != null) {
-            delete(entity);
-        }
-    }
-    
-    @Override
-    public void update(T entity) {
-        getCurrentSession().update(entity);
-    }
-    
+	@Override
+	public void delete(T entity) {
+		getCurrentSession().delete(entity);
+	}
+
+	@Override
+	public void deleteById(ID id) {
+		T entity = findById(id);
+		if (entity != null) {
+			delete(entity);
+		}
+	}
+
+	@Override
+	public T update(T entity) {
+		 getCurrentSession().update(entity);  // 將實體轉為persistent狀態    
+		 getCurrentSession().flush();         // 立即同步到數據庫    
+		 getCurrentSession().refresh(entity); // 重新加載最新狀態    
+		 return entity;
+	}
+
 }

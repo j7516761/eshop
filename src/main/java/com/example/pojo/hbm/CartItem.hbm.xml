@@ -9,7 +9,7 @@
         </id>
 
         <many-to-one name="cart" class="com.example.pojo.entity.Cart" column="cart_id" not-null="true"/>
-        <many-to-one name="product" class="com.example.pojo.entity.Product" column="product_id" not-null="true"/>
+        <many-to-one name="product" class="com.example.pojo.entity.Product" column="product_id" not-null="true" fetch="join"/>
 
         <property name="quantity" type="java.lang.Integer">
             <column name="quantity"/>
