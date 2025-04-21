@@ -17,36 +17,67 @@
 	font-size: 1.25rem;
 	color: #dc3545;
 }
+
+/* 右下角語言選單的樣式 */
+.language-switcher {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 1000; /* 確保在其他內容之上 */
+}
 </style>
 </head>
 <body class="bg-light">
 	<!-- 新增頂部導航 -->
 	<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
-		<!-- 在product.jsp頂部添加語言切換 -->
-		<div class="language-switcher">
-			<s:url var="zhLink" value="">
-				<s:param name="request_locale">zh_CN</s:param>
-			</s:url>
-			<s:url var="enLink" value="">
-				<s:param name="request_locale">en_US</s:param>
-			</s:url>
-			<a href="${zhLink}"
-				class="lang-btn <s:if test="#session['WW_TRANS_I18N_LOCALE'] == 'zh_CN'">active</s:if>">
-				<s:text name="language.zh" />
-			</a> <a href="${enLink}"
-				class="lang-btn <s:if test="#session['WW_TRANS_I18N_LOCALE'] == 'en_US'">active</s:if>">
-				<s:text name="language.en" />
-			</a>
-		</div>
-
-		<!-- 登入/註冊區塊 -->
-		<div class="auth-section">
-			<s:url var="loginUrl" value="/login.jsp" />
-			<a href="${loginUrl}" class="btn btn-primary btn-sm"> <i
-				class="bi bi-box-arrow-in-right"></i> <s:text name="login.button" />
-			</a>
-		</div>
+	    <div class="container-fluid">
+	        <!-- 將剩餘空間推到右邊 -->
+	        <div class="ms-auto d-flex align-items-center"> <!-- 將按鈕放在右邊 -->
+	            	            <!-- 購物車區塊 -->
+	            <div class="cart-section me-3"> <!-- 無需增加右邊距 -->
+	                <s:url var="cartUrl" value="/cart/view" />
+	                <s:if test="#session['user'] == null">
+	                    <a href="${loginUrl}" class="btn btn-primary btn-sm"> 
+	                        <i class="bi bi-box-arrow-in-right"></i> 
+	                        <s:text name="cart.button" />
+	                    </a>
+	                </s:if>
+	                <s:else>
+	                    <a href="${cartUrl}" class="btn btn-secondary btn-sm"> 
+	                        <i class="bi bi-cart"></i> 
+	                        <s:text name="cart.view" />
+	                    </a>
+	                </s:else>
+	            </div>
+	            
+	            <!-- 登入/註冊區塊 -->
+	            <div class="auth-section "> <!-- 增加右邊距 -->
+	                <s:url var="loginUrl" value="/login.jsp" />
+	                <a href="${loginUrl}" class="btn btn-primary btn-sm"> 
+	                    <i class="bi bi-box-arrow-in-right"></i> 
+	                    <s:text name="login.button" />
+	                </a>
+	            </div>
+	        </div>
+	    </div>
 	</nav>
+
+	<!-- 語言切換下拉選單放在右下角 -->
+	<div class="language-switcher dropdown">
+	    <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+	        <s:text name="language.select" />
+	    </button>
+	    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+	        <s:url var="zhLink" value="">
+	            <s:param name="request_locale">zh_CN</s:param>
+	        </s:url>
+	        <s:url var="enLink" value="">
+	            <s:param name="request_locale">en_US</s:param>
+	        </s:url>
+	        <li><a class="dropdown-item" href="${zhLink}"><s:text name="language.zh" /></a></li>
+	        <li><a class="dropdown-item" href="${enLink}"><s:text name="language.en" /></a></li>
+	    </ul>
+	</div>
 
 	<div class="container py-5">
 		<h1 class="mb-4 text-center">
@@ -56,10 +87,8 @@
 		<!-- 商品篩選表單 -->
 		<div class="row mb-4">
 			<div class="col-md-6">
-				<form action="<s:url action='searchProducts'/>" method="get"
-					class="input-group">
-					<input type="text" name="keyword" class="form-control"
-						placeholder="搜尋商品名稱..." value="<s:property value='keyword'/>">
+				<form action="<s:url action='searchProducts'/>" method="get" class="input-group">
+					<input type="text" name="keyword" class="form-control" placeholder="搜尋商品名稱..." value="<s:property value='keyword'/>">
 					<button type="submit" class="btn btn-outline-primary">搜尋</button>
 				</form>
 			</div>
@@ -70,10 +99,8 @@
 			<s:iterator value="products" status="stat">
 				<div class="col">
 					<div class="card h-100 shadow-sm">
-						<s:url value="/resources/images/products/%{imageUrl}"
-							var="dynamicImg" />
-						<a
-							href="<s:url action='detail' namespace='/product'> <s:param name='productId' value='id'/> </s:url>">
+						<s:url value="/resources/images/products/%{imageUrl}" var="dynamicImg" />
+						<a href="<s:url action='detail' namespace='/product'> <s:param name='productId' value='id'/> </s:url>">
 							<img src="${dynamicImg}" alt="<s:property value='product.name'/>">
 						</a>
 						<div class="card-body">
@@ -94,9 +121,8 @@
 							</div>
 						</div>
 						<div class="card-footer bg-transparent">
-							<a
-								href="<s:url action='../cart/addToCart'><s:param name='productId' value='id'/></s:url>"
-								class="btn btn-primary w-100"> <i class="bi bi-cart-plus"></i>
+							<a href="<s:url action='../cart/addToCart'><s:param name='productId' value='id'/></s:url>" class="btn btn-primary w-100"> 
+								<i class="bi bi-cart-plus"></i>
 								<s:text name="product.addToCart" />
 							</a>
 						</div>
@@ -113,40 +139,40 @@
 					<s:url var="prevPage" action="list">
 						<s:param name="currentPage" value="currentPage-1" />
 						<s:param name="keyword" value="keyword" />
-					</s:url> <a class="page-link" href="<s:property value='#prevPage'/>"
-					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-				</a>
+					</s:url> 
+					<a class="page-link" href="<s:property value='#prevPage'/>" aria-label="Previous"> 
+						<span aria-hidden="true">&laquo;</span>
+					</a>
 				</li>
 
 				<!-- 頁碼 -->
 				<s:iterator begin="1" end="totalPages" status="page">
-					<li
-						class="page-item <s:if test='currentPage == #page.count'>active</s:if>">
+					<li class="page-item <s:if test='currentPage == #page.count'>active</s:if>">
 						<s:url var="pageUrl" action="list">
 							<s:param name="currentPage" value="#page.count" />
 							<s:param name="keyword" value="keyword" />
-						</s:url> <a class="page-link" href="<s:property value='#pageUrl'/>"> <s:property
-								value="#page.count" />
-					</a>
+						</s:url> 
+						<a class="page-link" href="<s:property value='#pageUrl'/>"> 
+							<s:property value="#page.count" />
+						</a>
 					</li>
 				</s:iterator>
 
 				<!-- 下一頁 -->
-				<li
-					class="page-item <s:if test="currentPage >= totalPages">disabled</s:if>">
+				<li class="page-item <s:if test="currentPage >= totalPages">disabled</s:if>">
 					<s:url var="nextPage" action="list">
 						<s:param name="currentPage" value="currentPage+1" />
 						<s:param name="keyword" value="keyword" />
-					</s:url> <a class="page-link" href="<s:property value='#nextPage'/>"
-					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a>
+					</s:url> 
+					<a class="page-link" href="<s:property value='#nextPage'/>" aria-label="Next"> 
+						<span aria-hidden="true">&raquo;</span>
+					</a>
 				</li>
 			</ul>
 		</nav>
 	</div>
 
 	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
