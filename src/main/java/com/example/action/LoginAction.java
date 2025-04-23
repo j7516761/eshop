@@ -59,6 +59,13 @@ public class LoginAction extends BaseAction {
         getSession().setAttribute("msg", "帳號或密碼錯誤");
         return INPUT;
     }
+    
+    public String doLogout() {
+        // 清除會話中的用戶資料
+        getSession().removeAttribute(ConstantName.SESSION_USER);
+        // 重新導向至登入頁面
+        return SUCCESS;
+    }
 
     // Getter 和 Setter 方法
     public User getUser() {

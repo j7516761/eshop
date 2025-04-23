@@ -45,7 +45,7 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 
 	@Override
 	public T save(T entity) {
-		getCurrentSession().saveOrUpdate(entity);
+		getCurrentSession().save(entity);
 		return entity;
 	}
 

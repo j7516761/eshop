@@ -10,11 +10,12 @@ import com.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
 public class CartAction extends BaseAction {
+
+	private static final long serialVersionUID = 1L;
 
 	private User user;
 
@@ -31,10 +32,12 @@ public class CartAction extends BaseAction {
 
 	public String viewCart() {
 		cart = cartService.getCartByUser(getUser());
-
-		Set<CartItem> items = cart.getCartItems();
-		getRequest().setAttribute("cartItems", items);
-		totalAmount = cartService.calculateTotalAmount(getUser());
+		if (cart != null)
+		{
+			Set<CartItem> items = cart.getCartItems();
+			getRequest().setAttribute("cartItems", items);
+			totalAmount = cartService.calculateTotalAmount(getUser());
+		}
 		return SUCCESS;
 	}
 

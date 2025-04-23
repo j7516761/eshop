@@ -1,10 +1,6 @@
-<%@ page import="com.example.pojo.entity.User" %>
+<%@ page import="com.example.pojo.entity.User"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%
-    // 獲取當前會話中的用戶物件
-    User user = (User) session.getAttribute("user");
-%>
 
 <!DOCTYPE html>
 <html>
@@ -42,29 +38,32 @@
 				<!-- 將按鈕放在右邊 -->
 				<s:url var="loginUrl" value="/login.jsp" />
 				<s:url var="cartUrl" value="/cart/viewCart" />
+				<s:url var="logoutUrl" value="/logout" />
 				<!-- 購物車區塊 -->
 				<div class="cart-section me-3">
-					<!-- 無需增加右邊距 -->
+					<s:if test="#session['session_user'] != null">
+						<span class="me-2"> <s:text name="welcome.message" />, <s:property
+								value="#session['session_user'].name" /></span>
 
-					<s:if test="#session['session_user'] == null">
-						<a href="${loginUrl}" class="btn btn-primary btn-sm"> <i
-							class="bi bi-box-arrow-in-right"></i> <s:text name="cart.button" />
-						</a>
-					</s:if>
-					<s:else>
 						<a href="${cartUrl}" class="btn btn-secondary btn-sm"> <i
 							class="bi bi-cart"></i> <s:text name="cart.button" />
 						</a>
-					</s:else>
+						<!-- 新增登出按鈕 -->
+						<form action="${logoutUrl}" method="post" style="display: inline;">
+							<button type="submit" class="btn btn-danger btn-sm ms-2">
+								<s:text name="login.logout" />
+							</button>
+						</form>
+					</s:if>
 				</div>
 
 				<!-- 登入/註冊區塊 -->
 				<div class="auth-section ">
-					<!-- 增加右邊距 -->
-					<!--<s:url var="loginUrl" value="/login.jsp" />-->
-					<a href="${loginUrl}" class="btn btn-primary btn-sm"> <i
-						class="bi bi-box-arrow-in-right"></i> <s:text name="login.button" />
-					</a>
+					<s:if test="#session['session_user'] == null">
+						<a href="${loginUrl}" class="btn btn-primary btn-sm"> <i
+							class="bi bi-box-arrow-in-right"></i> <s:text name="login.login" />
+						</a>
+					</s:if>
 				</div>
 			</div>
 		</div>
@@ -102,7 +101,7 @@
 					class="input-group">
 					<input type="text" name="keyword" class="form-control"
 						placeholder="搜尋商品名稱..." value="<s:property value='keyword'/>">
-					<button type="submit" class="btn btn-outline-primary">搜尋</button>
+					<button type="submit" class="btn btn-outline-primary"><s:text name="login.search" /></button>
 				</form>
 			</div>
 		</div>
@@ -128,10 +127,10 @@
 							<div class="d-flex justify-content-between align-items-center">
 								<span class="price-tag">$<s:property value="price" /></span>
 								<s:if test="stock > 0">
-									<span class="badge bg-success">庫存充足</span>
+									<span class="badge bg-success"><s:text name="product.sufficient" /></span>
 								</s:if>
 								<s:else>
-									<span class="badge bg-danger">缺貨中</span>
+									<span class="badge bg-danger"><s:text name="product.outOfStock" /></span>
 								</s:else>
 							</div>
 						</div>

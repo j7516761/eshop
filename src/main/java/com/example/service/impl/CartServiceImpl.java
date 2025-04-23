@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -28,15 +27,15 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public Cart getCartByUser(User user) {
-		Cart cart = cartDao.findCartByUserId(user.getId());
-		if (cart == null) {
-			cart = new Cart();
-			cart.setUser(user); // 假設 User 類有對應的構造函數
-			cartDao.saveCart(cart);
-		} else {
-			// 確保 cart 也能加載 cartItems
-			Hibernate.initialize(cart.getCartItems());
-		}
+        Cart cart = cartDao.findCartByUserId(user.getId());
+        if (cart == null) {
+            cart = new Cart();
+            cart.setUser(user);
+            cartDao.save(cart);
+        } else {
+            Hibernate.initialize(cart.getCartItems());
+        }
+
 		return cart;
 	}
 
@@ -50,14 +49,9 @@ public class CartServiceImpl implements CartService {
 
 		if (existingCartItem != null) {
 			existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
-			cartItemDao.saveCartItem(existingCartItem);
-		} else {
-			CartItem cartItem = new CartItem(cart, product, quantity);
-			cartItems.add(cartItem);
-			cartItemDao.saveCartItem(cartItem);
+			cartItemDao.save(existingCartItem);
 		}
-
-		cartDao.updateCart(cart);
+		cartDao.update(cart);
 	}
 
 	@Override
@@ -70,36 +64,30 @@ public class CartServiceImpl implements CartService {
 
 		if (cartItemToRemove != null) {
 			cartItems.remove(cartItemToRemove);
-			cartItemDao.deleteCartItem(cartItemToRemove);
+			cartItemDao.delete(cartItemToRemove);
+			cartDao.update(cart);
 		}
-
-		cartDao.updateCart(cart);
 	}
 
-	// 新增更新商品數量的方法
 	@Override
 	public void updateItemQuantity(User user, int productId, int quantity) {
 		Cart cart = getCartByUser(user);
 		Set<CartItem> cartItems = cart.getCartItems();
+
 		CartItem existingCartItem = cartItems.stream().filter(item -> item.getProduct().getId() == productId)
 				.findFirst().orElse(null);
+
 		if (existingCartItem != null) {
 			existingCartItem.setQuantity(quantity);
-			cartItemDao.saveCartItem(existingCartItem);
+			cartItemDao.save(existingCartItem);
+			cartDao.update(cart);
 		}
-		cartDao.updateCart(cart);
 	}
 
-	// 新增計算總金額的方法
 	@Override
 	public double calculateTotalAmount(User user) {
 		Cart cart = getCartByUser(user);
 		Set<CartItem> cartItems = cart.getCartItems();
-		double totalAmount = 0.0;
-		for (CartItem item : cartItems) {
-			Product product = item.getProduct();
-			totalAmount += product.getPrice() * item.getQuantity();
-		}
-		return totalAmount;
+		return cartItems.stream().mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity()).sum();
 	}
 }

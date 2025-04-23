@@ -1,8 +1,6 @@
 package com.example.action;
 
-import com.example.pojo.entity.Category;
 import com.example.pojo.entity.Product;
-import com.example.service.CategoryService;
 import com.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,9 +20,6 @@ public class ProductAction extends BaseAction {
 	@Autowired
 	private ProductService productService;
 
-	@Autowired
-	private CategoryService categoryService;
-
 	private int categoryIdCache;
 
 	public String execute() {
@@ -38,11 +33,8 @@ public class ProductAction extends BaseAction {
 	}
 
 	public String listProducts() {
-		//List<Category> categories = categoryService.getAllCategories();
-		//getRequest().setAttribute("categories", categories);
 
-		int categoryId = getCategoryId();
-		//getRequest().setAttribute("selectCategoryId", categoryId);
+		int categoryId = getCategoryId();;
 
 		totalPages = productService.findTotalPages(categoryId);
 
