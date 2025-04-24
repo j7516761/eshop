@@ -83,7 +83,7 @@
 				<s:param name="request_locale">en_US</s:param>
 			</s:url>
 			<li><a class="dropdown-item" href="${zhLink}"><s:text
-						name="language.zh" /></a></li>
+						name="language.tw" /></a></li>
 			<li><a class="dropdown-item" href="${enLink}"><s:text
 						name="language.en" /></a></li>
 		</ul>

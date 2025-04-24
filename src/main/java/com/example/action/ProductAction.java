@@ -2,6 +2,9 @@ package com.example.action;
 
 import com.example.pojo.entity.Product;
 import com.example.service.ProductService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -9,18 +12,20 @@ import java.util.List;
 
 public class ProductAction extends BaseAction {
 
-	private int currentPage = 1;  // 必須有setter
+	private int categoryId = 0;
+	
+	private int currentPage = 1;
 
-	private int totalPages; // 總頁數
+	private int totalPages;
 	
 	private List<Product> products = new ArrayList<>();
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ProductAction.class);
 
 	@Autowired
 	private ProductService productService;
-
-	private int categoryIdCache;
 
 	public String execute() {
 		listProducts();
@@ -33,48 +38,19 @@ public class ProductAction extends BaseAction {
 	}
 
 	public String listProducts() {
-
-		int categoryId = getCategoryId();;
-
+	
+		//String i18nTestMessage = getText("product.logTest", "default", "Hello i18n");
+		//logger.info(i18nTestMessage);
+		
 		totalPages = productService.findTotalPages(categoryId);
 
-		int pageIndex = getCurrentPageIndex(categoryId);
-		products = productService.findProductsByCategory(categoryId, pageIndex);
+		products = productService.findProductsByCategory(categoryId, currentPage);
 
-		categoryIdCache = categoryId;
 		return SUCCESS;
 	}
 
 	public int getTotalPages() {
 		return totalPages;
-	}
-
-	private int getCategoryId() {
-		String categoryString = getRequest().getParameter("category");
-		if (categoryString == null)
-			return 0;
-
-		try {
-			return Integer.parseInt(categoryString);
-		} catch (NumberFormatException e) {
-			return 0;
-		}
-	}
-
-	private int getCurrentPageIndex(int categoryId) {
-
-		if (categoryIdCache != categoryId)
-			return 1;
-
-		String pageString = getRequest().getParameter("currentPage");
-		if (pageString == null)
-			return 1;
-
-		try {
-			return Integer.parseInt(pageString);
-		} catch (NumberFormatException e) {
-			return 1;
-		}
 	}
 	
 	public int getCurrentPage() {
@@ -87,22 +63,5 @@ public class ProductAction extends BaseAction {
 
 	public List<Product> getProducts() {
 		return products;
-	}
-
-	public String initDB() {
-//    	for(int i = 1; i <= 50; i++)
-//    	{
-//    		Product p = new Product();
-//    		p.setId(i);
-//    		p.setName("Product" + i);
-//    		p.setDescription("ProductDescription"+ i);
-//    		p.setPrice(i * 100);
-//    		p.setStock(i * 100);
-//    		Category c = categoryService.getCategoryById(i / 10 + 1);
-//    		p.setCategory(c);  		
-//    		productService.updateProduct(p);
-//    	}
-
-		return SUCCESS;
 	}
 }
