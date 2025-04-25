@@ -32,8 +32,8 @@
     <s:actionerror cssClass="error"/>
     <s:form action="save" method="post" onsubmit="return validateForm()">
         <div class="form-group">
-            <s:textfield name="user.id" label="用戶名" required="true"/>
-            <s:fielderror fieldName="user.id" cssClass="error"/>
+            <s:textfield name="user.loginId" label="用戶名" required="true"/>
+            <s:fielderror fieldName="user.loginId" cssClass="error"/>
         </div>
         <div class="form-group">
             <s:password name="user.password" label="密碼" required="true"/>

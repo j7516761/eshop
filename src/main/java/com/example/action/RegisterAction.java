@@ -43,8 +43,7 @@ public class RegisterAction extends BaseAction {
      */
     public String save() {
     	
-    	user.setName(user.getId());
-    	user.setLoginId(user.getId());
+    	user.setName(user.getLoginId());
     	
         // 註冊前的資料檢查
         if (!doCheck(user)) {

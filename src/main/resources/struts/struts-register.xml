@@ -17,7 +17,7 @@
             <!-- 註解：如果發生錯誤，會導向錯誤頁面 -->
             <result name="input">/WEB-INF/views/register/register.jsp</result>
             <!-- 註解：註冊成功後，跳轉到登入頁面 -->
-            <result name="success">product/list</result>
+            <result name="success" type="redirectAction">login/login</result>
         </action>
     </package>
 </struts>
