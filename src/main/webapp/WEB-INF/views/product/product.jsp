@@ -125,7 +125,7 @@
 								<s:property value="description" />
 							</p>
 							<div class="d-flex justify-content-between align-items-center">
-								<span class="price-tag">$<s:property value="price" /></span>
+								<span class="price-tag">$<s:property value="formattedPrice" /></span>
 								<s:if test="stock > 0">
 									<span class="badge bg-success"><s:text name="product.sufficient" /></span>
 								</s:if>

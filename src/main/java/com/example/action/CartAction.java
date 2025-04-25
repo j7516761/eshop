@@ -8,11 +8,9 @@ import com.example.pojo.entity.User;
 import com.example.service.CartService;
 import com.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
-@RestController
 public class CartAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
