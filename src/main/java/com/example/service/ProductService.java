@@ -6,15 +6,15 @@ import com.example.pojo.entity.Product;
 //ProductService.java
 public interface ProductService {
 
-	Product findProductById(int productId);
+	Product getProductById(int productId);
 
 	long findProductAmount();
 	
 	long findProductAmountByCategory(int categoryId);
 	
-	int findTotalPages(int categoryId);
+	int getTotalPages(int categoryId);
 	
 	List<Product> findProducts(int start, int maxResults);
 	
-	List<Product> findProductsByCategory(int category, int start);
+	List<Product> getProductsByCategory(int category, int start);
 }

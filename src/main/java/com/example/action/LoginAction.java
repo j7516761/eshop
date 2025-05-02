@@ -60,7 +60,8 @@ public class LoginAction extends BaseAction {
         return INPUT;
     }
     
-    public String doLogout() {
+    public String doLogout() {   	
+    	user = null;
         // 清除會話中的用戶資料
         getSession().removeAttribute(ConstantName.SESSION_USER);
         // 重新導向至登入頁面

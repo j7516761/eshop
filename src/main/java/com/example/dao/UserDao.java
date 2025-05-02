@@ -18,5 +18,7 @@ public interface UserDao {
      * @param user 要新增的 User 物件，包含使用者的所有資料
      * @return 無回傳值，成功則資料會被儲存至資料庫
      */
-    public void addUser(User user);
+    public void save(User user);
+    
+    public User findById(String loginId);
 }

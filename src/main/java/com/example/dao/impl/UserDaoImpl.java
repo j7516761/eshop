@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
      * @param user 要新增的 User 物件，包含使用者的所有資料
      */
     @Override
-    public void addUser(User user) {
+    public void save(User user) {
         // 使用 Hibernate 保存 User 物件
         getSession().save(user);
     }
@@ -65,6 +65,24 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
+     * 根據使用者的帳號查詢使用者資料。
+     * 
+     * @param loginId 使用者的登入帳號
+     * @return 如果找到匹配的使用者資料，則回傳 User 物件；否則回傳 null
+     */
+    public User findById(String loginId) {
+        // 定義 HQL 查詢語句
+        String hql = "from User where loginId = :loginId";
+        // 使用 Hibernate 的 Query 物件來執行 HQL 查詢
+        Query<User> query = getSession().createQuery(hql, User.class);
+        query.setParameter("loginId", loginId);
+        List<User> userList = query.list();
+
+        // 若查詢結果不為空，返回第一筆資料
+        return userList.isEmpty() ? null : userList.get(0);
+    }
+
+    /**
      * 獲取當前 Hibernate 的 Session 物件。
      * 
      * @return 當前的 Hibernate Session 物件
@@ -72,5 +90,4 @@ public class UserDaoImpl implements UserDao {
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
-
 }

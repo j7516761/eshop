@@ -21,4 +21,10 @@ public class CategoryDaoImpl extends BaseDaoImpl<Category, Long> implements Cate
         return getCurrentSession().createQuery(hql, Category.class)
             .setParameter("keyword", "%" + keyword + "%").list();
     }
+    
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Category> findAll() {
+		return getCurrentSession().createQuery("from " + Category.class.getName()).list();
+	}
 }

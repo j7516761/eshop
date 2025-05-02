@@ -66,7 +66,7 @@
 						<h2 class="cart-title">${item.product.name}</h2>
 						<div
 							class="d-flex justify-content-between align-items-center mb-3">
-							<span class="cart-price">$${item.product.price}</span>
+							<span class="cart-price">${item.product.price}</span>
 							<form action="updateQuantity.action" method="post"
 								class="d-flex align-items-center">
 								<input type="number" name="quantity" value="${item.quantity}"
@@ -82,7 +82,7 @@
 				</div>
 			</c:forEach>
 			<div class="total-amount">
-				<h2>Total Amount: $${totalAmount}</h2>
+				<h2>Total Amount: ${totalAmount}</h2>
 				<!-- 顯示總金額 -->
 			</div>
 		</c:if>

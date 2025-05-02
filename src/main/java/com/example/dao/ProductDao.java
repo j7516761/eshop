@@ -7,6 +7,8 @@ import com.example.pojo.entity.Product;
 //ProductDao.java
 public interface ProductDao extends BaseDao<Product, Integer> {
 		
+	public long findAmount();
+	
 	public long findProductAmountByCategory(int categoryId);
 	
 	public List<Product> findProducts(int start, int maxResults);

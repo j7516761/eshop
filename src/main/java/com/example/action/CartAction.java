@@ -40,7 +40,7 @@ public class CartAction extends BaseAction {
 	}
 
 	public String addToCart() {
-		Product product = productService.findProductById(productId);
+		Product product = productService.getProductById(productId);
 		if (product != null) {
 			cartService.addItemToCart(getUser(), product, 1);
 		}

@@ -1,13 +1,10 @@
 package com.example.pojo.entity;
 
-import java.text.DecimalFormat;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Products")
 public class Product {
-	private static DecimalFormat df = new DecimalFormat("#,###");   
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -30,12 +27,6 @@ public class Product {
 
 	@Column(name = "image_url")
 	private String imageUrl;
-
-	private String formattedPrice;
-
-	public String getFormattedPrice() {
-		return formattedPrice;
-	}
 
 	// Getters and Setters
 	public int getId() {
@@ -68,7 +59,6 @@ public class Product {
 
 	public void setPrice(double price) {
 		this.price = price;	     
-		this.formattedPrice = df.format(price);
 	}
 
 	public int getStock() {

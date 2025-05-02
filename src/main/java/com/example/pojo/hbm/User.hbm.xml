@@ -32,7 +32,7 @@
         
         <!-- 定義密碼欄位，並設置為不可為 null -->
         <property name="password" type="java.lang.String" not-null="true">
-            <column name="password" length="20">
+            <column name="password" length="100">
                 <!-- 註解：使用者密碼 -->
                 <comment>密碼</comment>
             </column>

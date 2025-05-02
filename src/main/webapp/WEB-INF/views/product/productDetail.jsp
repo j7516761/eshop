@@ -54,7 +54,8 @@
             <div class="row g-4">
                 <!-- 商品圖片區 -->
                 <div class="col-md-6">
-                    <img src="<s:property value='product.imageURL'/>" 
+                <s:url value="/resources/images/products/%{product.imageUrl}" var="dynamicImg" />
+                    <img src="<s:property value='dynamicImg'/>" 
                          class="detail-img img-fluid" 
                          alt="<s:property value='product.name'/>">
                 </div>
@@ -81,13 +82,13 @@
 
                             <hr class="my-4">
 
-                            <!-- 商品規格 -->
+                            <!-- 商品規格 
                             <h5 class="mb-3">商品規格</h5>
                             <ul class="specs-list">
                                 <li class="spec-item">型號：<s:property value="product.model"/></li>
                                 <li class="spec-item">顏色：<s:property value="product.color"/></li>
                                 <li class="spec-item">重量：<s:property value="product.weight"/>g</li>
-                            </ul>
+                            </ul>-->
                         </div>
                     </div>
                 </div>

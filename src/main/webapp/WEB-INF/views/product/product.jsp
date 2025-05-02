@@ -103,10 +103,12 @@
             <s:iterator value="products" status="stat">
                 <div class="col">
                     <div class="card h-100 shadow-sm">
+   
                         <s:url value="/resources/images/products/%{imageUrl}" var="dynamicImg" />
                         <a href="<s:url action='detail' namespace='/product'><s:param name='productId' value='id'/></s:url>">
-                            <img src="${dynamicImg}" alt="<s:property value='product.name'/>">
+                            <img src="${dynamicImg}" alt="<s:property value='product.name' />" width="225" height="225">
                         </a>
+   
                         <div class="card-body">
                             <h5 class="card-title">
                                 <s:property value="name" />
@@ -115,7 +117,7 @@
                                 <s:property value="description" />
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="price-tag">$<s:property value="formattedPrice" /></span>
+                                <span class="price-tag">$<s:property value="price" /></span>
                                 <s:if test="stock > 0">
                                     <span class="badge bg-success"><s:text name="product.sufficient" /></span>
                                 </s:if>

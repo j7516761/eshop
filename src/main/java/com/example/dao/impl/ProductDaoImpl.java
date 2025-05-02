@@ -36,11 +36,6 @@ public class ProductDaoImpl extends BaseDaoImpl<Product, Integer> implements Pro
 	}
 
 	@Override
-	public List<Product> findAll() {
-		return getCurrentSession().createQuery("FROM Product", Product.class).getResultList();
-	}
-
-	@Override
 	public List<Product> findProducts(int start, int maxResults) {
 		String hql = "FROM Product";
 		Query<Product> query = getCurrentSession().createQuery(hql, Product.class);
@@ -65,5 +60,11 @@ public class ProductDaoImpl extends BaseDaoImpl<Product, Integer> implements Pro
 		query.setFirstResult(start);
 		query.setMaxResults(maxResults);
 		return query.getResultList();
+	}
+	
+	@Override
+	public long findAmount() {
+		String hql = "SELECT COUNT(*) FROM ";
+		return getCurrentSession().createQuery(hql + Product.class.getName(), Long.class).uniqueResult();
 	}
 }

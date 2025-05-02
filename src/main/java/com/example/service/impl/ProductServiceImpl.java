@@ -13,13 +13,13 @@ import com.example.service.ProductService;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
-	private static int ProductAmountPerPage = 3;
+	private static int ProductAmountPerPage = 9;
 	
 	@Autowired
 	private ProductDao productDao;
 
 	@Override
-	public Product findProductById(int productId) {
+	public Product getProductById(int productId) {
 		return productDao.findById(productId);
 	}
 
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public int findTotalPages(int categoryId)
+	public int getTotalPages(int categoryId)
 	{
 		long productAmount = findProductAmountByCategory(categoryId);
 		return (int)Math.ceil((float) productAmount / ProductAmountPerPage);
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> findProductsByCategory(int categoryId, int pageIndex) {		
+	public List<Product> getProductsByCategory(int categoryId, int pageIndex) {		
 		long productAmount = findProductAmount();
 		int startIndex = Math.max(0, (pageIndex - 1) * ProductAmountPerPage);
 		int maxResults = pageIndex * ProductAmountPerPage > productAmount ? (int) (productAmount % ProductAmountPerPage) : (int) ProductAmountPerPage;			

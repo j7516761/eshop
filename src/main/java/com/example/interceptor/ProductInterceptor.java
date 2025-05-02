@@ -14,22 +14,16 @@ public class ProductInterceptor implements Interceptor {
 
 	@Override
     public void destroy() {
-        // 清理資源（如果需要）
     }
 
     @Override
     public void init() {
-        // 初始化攔截器（如果需要）
     }
 
     @Override
-    public String intercept(ActionInvocation invocation) throws Exception {
-    	
+    public String intercept(ActionInvocation invocation) throws Exception {  	
 		logger.info("Entering ProductInterceptor");
-
-        // 執行 Action
         String result = invocation.invoke();
-
         logger.info("Exiting ProductInterceptor");
         return result;
     }

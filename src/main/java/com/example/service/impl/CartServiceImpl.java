@@ -43,14 +43,26 @@ public class CartServiceImpl implements CartService {
 	public void addItemToCart(User user, Product product, int quantity) {
 		Cart cart = getCartByUser(user);
 		Set<CartItem> cartItems = cart.getCartItems();
-
-		CartItem existingCartItem = cartItems.stream().filter(item -> item.getProduct().getId() == product.getId())
-				.findFirst().orElse(null);
+		CartItem existingCartItem = null;
+		if (cartItems != null)
+		{
+			existingCartItem = cartItems.stream().filter(item -> item.getProduct().getId() == product.getId())
+					.findFirst().orElse(null);
+		}
 
 		if (existingCartItem != null) {
 			existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
 			cartItemDao.save(existingCartItem);
 		}
+		else
+		{
+			CartItem cartItem = new CartItem();
+			cartItem.setCart(cart);
+			cartItem.setProduct(product);
+			cartItem.setQuantity(quantity);
+			cart.addItem(cartItem);
+		}
+		
 		cartDao.update(cart);
 	}
 

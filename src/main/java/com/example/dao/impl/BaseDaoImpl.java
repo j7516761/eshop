@@ -3,14 +3,11 @@ package com.example.dao.impl;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.BaseDao;
 
 import java.io.Serializable;
-import java.util.List;
 
-@Transactional
 public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao<T, ID> {
 
 	@Autowired
@@ -32,20 +29,8 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<T> findAll() {
-		return getCurrentSession().createQuery("from " + entityClass.getName()).list();
-	}
-
-	@Override
-	public long findAmount() {
-		String hql = "SELECT COUNT(*) FROM ";
-		return getCurrentSession().createQuery(hql + entityClass.getName(), Long.class).uniqueResult();
-	}
-
-	@Override
 	public T save(T entity) {
-		getCurrentSession().save(entity);
+		getCurrentSession().saveOrUpdate(entity);
 		return entity;
 	}
 

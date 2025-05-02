@@ -3,10 +3,7 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
     "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
-	<package name="product" extends="struts-default"
-		namespace="/product">
-
-		<!-- 註冊自定義攔截器 -->
+	<package name="product" extends="struts-default">
 		<interceptors>
 			<interceptor name="ProductInterceptor" 
 				class="com.example.interceptor.ProductInterceptor" />
@@ -16,7 +13,6 @@
 			</interceptor-stack>
 		</interceptors>
 
-		<!-- 定義顯示產品列表的 Action -->
 		<action name="list" class="com.example.action.ProductAction"
 			method="listProducts">
 			<interceptor-ref name="ProductStack" />
@@ -24,12 +20,6 @@
 			<result name="error">/error.jsp</result>
 		</action>
 
-		<action name="initDB" class="com.example.action.ProductAction"
-			method="initDB">
-			<result name="success">/WEB-INF/views/product/product.jsp</result>
-		</action>
-
-		<!-- 定義保存新產品的 Action -->
 		<action name="detail" class="com.example.action.ProductAction"
 			method="productDetail">
 			<result>/WEB-INF/views/product/productDetail.jsp</result>

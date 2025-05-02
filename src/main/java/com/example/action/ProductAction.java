@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAction extends BaseAction {
+	
+	private int productId; // 用於接收 productId 參數
+	
+	private Product product;
 
 	private int categoryId = 0;
 	
@@ -34,17 +38,19 @@ public class ProductAction extends BaseAction {
 	
 	public String productDetail()
 	{
+		
+		product = productService.getProductById(productId);
 		return SUCCESS;
 	}
 
 	public String listProducts() {
 	
-		//String i18nTestMessage = getText("product.logTest", "default", "Hello i18n");
-		//logger.info(i18nTestMessage);
+		String i18nTestMessage = getText("product.logTest", "default", "Hello i18n");
+		logger.info(i18nTestMessage);
 		
-		totalPages = productService.findTotalPages(categoryId);
+		totalPages = productService.getTotalPages(categoryId);
 
-		products = productService.findProductsByCategory(categoryId, currentPage);
+		products = productService.getProductsByCategory(categoryId, currentPage);
 
 		return SUCCESS;
 	}
@@ -63,5 +69,21 @@ public class ProductAction extends BaseAction {
 
 	public List<Product> getProducts() {
 		return products;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 }
