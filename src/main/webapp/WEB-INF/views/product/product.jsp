@@ -119,7 +119,7 @@
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="price-tag">
-                                    $<fmt:formatNumber value="${price}" type="number" pattern="#,##0.00"/>
+                                    $<fmt:formatNumber value="${price}" type="number" pattern="#,###"/>
                                 </span>
                                 <s:if test="stock > 0">
                                     <span class="badge bg-success"><s:text name="product.sufficient" /></span>

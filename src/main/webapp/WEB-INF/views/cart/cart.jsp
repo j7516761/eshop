@@ -68,7 +68,7 @@
 						<div
 							class="d-flex justify-content-between align-items-center mb-3">
 							<span class="cart-price"> $<fmt:formatNumber
-									value="${item.product.price}" type="number" pattern="#,##0.00" />
+									value="${item.product.price}" type="number" pattern="#,###" />
 							</span>
 							<form action="updateQuantity.action" method="post"
 								class="d-flex align-items-center">
@@ -85,7 +85,7 @@
 				</div>
 			</c:forEach>
 			<div class="total-amount">
-				<h2>Total Amount: $<fmt:formatNumber value="${totalAmount}" type="number" pattern="#,##0.00" /></h2>
+				<h2>Total Amount: $<fmt:formatNumber value="${totalAmount}" type="number" pattern="#,###" /></h2>
 				<!-- 顯示總金額 -->
 			</div>
 		</c:if>

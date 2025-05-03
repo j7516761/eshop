@@ -45,12 +45,12 @@ public class LoginAction extends BaseAction {
         }
         
         // 呼叫 UserService 來獲取使用者資料
-        user = userService.getLoginUser(user);
-        user.setName(user.getLoginId());
+        user = userService.getLoginUser(user);       
 
         // 如果用戶資料存在且登入 ID 正確
         if (user != null && !"".equals(user.getLoginId())) {
             // 登入成功，將用戶資料放入 session 中
+        	user.setName(user.getLoginId());
             getSession().setAttribute(ConstantName.SESSION_USER, user);
             return SUCCESS;
         }
