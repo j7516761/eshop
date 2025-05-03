@@ -2,6 +2,7 @@ package com.example.pojo.entity;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -45,6 +46,9 @@ public class Cart {
 	}
 
 	public void addItem(CartItem cartItem) {
+		if (cartItems == null)
+			cartItems = new HashSet<CartItem>();
+		
 		cartItems.add(cartItem);	
 	}
 }

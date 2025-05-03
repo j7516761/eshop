@@ -1,6 +1,7 @@
 <%@ page import="com.example.pojo.entity.User"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -117,7 +118,9 @@
                                 <s:property value="description" />
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="price-tag">$<s:property value="price" /></span>
+                                <span class="price-tag">
+                                    $<fmt:formatNumber value="${price}" type="number" pattern="#,##0.00"/>
+                                </span>
                                 <s:if test="stock > 0">
                                     <span class="badge bg-success"><s:text name="product.sufficient" /></span>
                                 </s:if>
@@ -127,7 +130,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href="javascript:void(0);" class="btn btn-primary w-100" onclick="addToCart('<s:url action='../cart/addToCart'><s:param name='productId' value='id'/></s:url>')">
+                            <a href="javascript:void(0);" class="btn btn-primary w-100" onclick="addToCart('<s:url action='cart/addToCart'><s:param name='productId' value='id'/></s:url>')">
                                 <i class="bi bi-cart-plus"></i>
                                 <s:text name="product.addToCart" />
                             </a>
@@ -195,7 +198,7 @@
     <!-- 添加 JavaScript 脚本 -->
     <script>
         function addToCart(url) {
-        	const cartAddFailMessage = "<s:text name='cart.addFail' />";
+            const cartAddFailMessage = "<s:text name='cart.addFail' />";
             // 使用 Fetch API 或 AJAX 调用 addToCart URL
             fetch(url)
                 .then(response => {

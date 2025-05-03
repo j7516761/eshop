@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +68,7 @@
                             <h1 class="card-title mb-4"><s:property value="product.name"/></h1>
                             
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h3 class="text-danger">¥<s:property value="product.price"/></h3>
+                                <h3 class="text-danger">¥<fmt:formatNumber value="${product.price}" type="number" pattern="#,##0.00"/></h3>
                                 <span class="badge bg-success">
                                     庫存 <s:property value="product.stock"/> 件
                                 </span>
