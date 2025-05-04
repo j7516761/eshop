@@ -10,7 +10,8 @@
 		</action>
 
 		<action name="addToCart" class="com.example.action.CartAction"
-			method="addToCart">
+			method="addToCart">	
+			<result name="success" type="redirectAction">/cart/viewCart</result>
 		</action>
 
 		<action name="removeItem" class="com.example.action.CartAction"

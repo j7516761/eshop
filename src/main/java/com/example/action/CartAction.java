@@ -30,12 +30,15 @@ public class CartAction extends BaseAction {
 
 	public String viewCart() {
 		cart = cartService.getCartByUser(getUser());
-		if (cart != null)
-		{
+		if (cart == null) {
+			return NONE;
+		}
+		else {
 			Set<CartItem> items = cart.getCartItems();
 			getRequest().setAttribute("cartItems", items);
 			totalAmount = cartService.calculateTotalAmount(getUser());
 		}
+
 		return SUCCESS;
 	}
 
@@ -57,7 +60,7 @@ public class CartAction extends BaseAction {
 		if (quantity > 0) {
 			cartService.updateItemQuantity(getUser(), productId, quantity);
 		}
-	return SUCCESS;
+		return SUCCESS;
 
 	}
 
@@ -77,14 +80,14 @@ public class CartAction extends BaseAction {
 	public Cart getCart() {
 		return cart;
 	}
-	
-    public int getQuantity() {       
-    	return quantity;    
-    }    
-    
-    public void setQuantity(int quantity) {     
-    	this.quantity = quantity;    
-    }
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	public double getTotalAmount() {
 		return totalAmount;
@@ -92,5 +95,5 @@ public class CartAction extends BaseAction {
 
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
-	}   
+	}
 }

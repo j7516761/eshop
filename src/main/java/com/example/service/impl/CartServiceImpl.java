@@ -31,7 +31,6 @@ public class CartServiceImpl implements CartService {
         if (cart == null) {
             cart = new Cart();
             cart.setUser(user);
-            cartDao.save(cart);
         } else {
             Hibernate.initialize(cart.getCartItems());
         }
@@ -56,14 +55,14 @@ public class CartServiceImpl implements CartService {
 		}
 		else
 		{
+			cartDao.save(cart);
 			CartItem cartItem = new CartItem();
 			cartItem.setCart(cart);
 			cartItem.setProduct(product);
 			cartItem.setQuantity(quantity);
 			cart.addItem(cartItem);
+			cartItemDao.save(cartItem);
 		}
-		
-		cartDao.update(cart);
 	}
 
 	@Override
@@ -100,6 +99,9 @@ public class CartServiceImpl implements CartService {
 	public double calculateTotalAmount(User user) {
 		Cart cart = getCartByUser(user);
 		Set<CartItem> cartItems = cart.getCartItems();
+		if (cartItems == null)
+			return 0;
+		
 		return cartItems.stream().mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity()).sum();
 	}
 }
